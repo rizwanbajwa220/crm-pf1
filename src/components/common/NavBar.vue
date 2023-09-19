@@ -7,6 +7,7 @@
             <v-list-item-icon>
               <v-icon class="icon-style">{{ item.icon }}</v-icon>
             </v-list-item-icon>
+            <v-list-item-content> </v-list-item-content>
           </v-list-item>
         </template>
       </v-list>
@@ -15,7 +16,7 @@
     <v-app-bar>
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
       <v-app-bar-title>{{
-        selectedItem ? selectedItem.title : "User Management"
+        selectedItem ? selectedItem : "User Management"
       }}</v-app-bar-title>
     </v-app-bar>
 
@@ -128,8 +129,9 @@ export default {
   }),
   methods: {
     selectItem(item) {
-      this.selectedItem = item;
+      this.selectedItem = item.title;
       this.drawer = false; // Close the drawer when an item is selected (optional)
+      console.log("clicked", item);
     },
   },
 };
