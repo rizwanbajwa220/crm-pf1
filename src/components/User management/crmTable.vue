@@ -1,4 +1,5 @@
 <template>
+  <AddButton />
   <v-data-table
     v-bind:items-per-page="itemsPerPage"
     :headers="headers"
@@ -9,6 +10,7 @@
 </template>
 
 <script>
+import AddButton from "./AddButon.vue";
 export default {
   name: "UserManagement",
   props: {
@@ -29,5 +31,19 @@ export default {
       default: "name",
     },
   },
+  data() {
+    return {
+      dialog: false,
+    };
+  },
+  components: {
+    AddButton,
+  },
 };
 </script>
+
+<style scoped>
+.dialog-box {
+  margin: 1vw 1vw 0 0;
+}
+</style>
