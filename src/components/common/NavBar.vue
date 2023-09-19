@@ -20,7 +20,12 @@
     </v-app-bar>
 
     <v-main>
-      <UserManagement :FirstName="UserData" />
+      <UserManagement
+        :headers="headers"
+        :items="users"
+        :itemsPerPage="itemsPerPage"
+        item-value="name"
+      />
     </v-main>
   </v-app>
 </template>
@@ -32,7 +37,7 @@ const drawer = ref(null);
 </script>
 
 <script>
-import UserManagement from "@/components/User management/UserManagement";
+import UserManagement from "@/components/User management/crmTable";
 export default {
   data: () => ({
     drawer: null,
@@ -53,6 +58,71 @@ export default {
         title: "Role Management",
         icon: "mdi-account",
         value: 3,
+      },
+    ],
+    itemsPerPage: 7,
+    headers: [
+      {
+        title: "First Name",
+        align: "start",
+        sortable: false,
+        key: "name",
+      },
+      { title: "Last Name", align: "center", key: "lastName" },
+      { title: "Email", align: "center", key: "Email" },
+      { title: "Role", align: "center", key: "role" },
+      { title: "Actions", align: "center", key: "Actions" },
+    ],
+    users: [
+      {
+        name: "Kashif",
+        lastName: "Saleem",
+        Email: "kashif@example.com",
+        role: "Admin",
+        Actions: [
+          { icon: "mdi-pencil", color: "primary" },
+          { icon: "mdi-delete", color: "error" },
+        ],
+      },
+      {
+        name: "Kashif",
+        lastName: "Saleem",
+        Email: "kashif@example.com",
+        role: "Admin",
+        Actions: [
+          { icon: "mdi-pencil", color: "primary" },
+          { icon: "mdi-delete", color: "error" },
+        ],
+      },
+      {
+        name: "Kashif",
+        lastName: "Saleem",
+        Email: "kashif@example.com",
+        role: "Admin",
+        Actions: [
+          { icon: "mdi-pencil", color: "primary" },
+          { icon: "mdi-delete", color: "error" },
+        ],
+      },
+      {
+        name: "Kashif",
+        lastName: "Saleem",
+        Email: "kashif@example.com",
+        role: "Admin",
+        Actions: [
+          { icon: "mdi-pencil", color: "primary" },
+          { icon: "mdi-delete", color: "error" },
+        ],
+      },
+      {
+        name: "Kashif",
+        lastName: "Saleem",
+        Email: "kashif@example.com",
+        role: "Admin",
+        Actions: [
+          { icon: "mdi-pencil", color: "primary" },
+          { icon: "mdi-delete", color: "error" },
+        ],
       },
     ],
   }),
