@@ -1,169 +1,217 @@
 <template>
-  <div>
-    <!-- Add Task Button -->
-    <div class="add-button-container">
-      <v-btn
-        @click="showAddTaskDialog = true"
-        prepend-icon="mdi-plus"
-        color="success"
-        rounded="xl"
-      >
-        Add Task
-      </v-btn>
-    </div>
-
-    <!-- Create Task Dialog -->
-    <v-dialog v-model="showAddTaskDialog" max-width="600">
-      <v-card>
-        <v-card-title>
-          Create Task
-          <v-icon
-            @click="showAddTaskDialog = false"
-            class="bold-icon right-icon"
-            >mdi-close</v-icon
-          >
-        </v-card-title>
-        <v-card-text>
-          <v-form @submit.prevent="createTask">
-            <v-text-field
-              v-model="newTask.name"
-              label="Task Title"
-            ></v-text-field>
-            <v-textarea
-              v-model="newTask.description"
-              label="Task Description"
-            ></v-textarea>
-            <v-select
-              v-model="newTask.assignees"
-              :items="assigneeNames"
-              label="Assignees"
-            ></v-select>
-            <v-textarea
-              v-model="newTask.comments"
-              label="Comments"
-            ></v-textarea>
-            <v-btn type="submit" color="success" class="right-icon"
-              >Create</v-btn
+  <v-data-table
+    :headers="headers"
+    :items="tasks"
+    :sort-by="[{ key: 'status', order: 'asc' }]"
+    class="elevation-1"
+  >
+    <template v-slot:top>
+      <v-toolbar flat>
+        <v-toolbar-title>TASK MANAGEMENT</v-toolbar-title>
+        <v-divider class="mx-4" inset vertical></v-divider>
+        <v-spacer></v-spacer>
+        <v-dialog v-model="dialog" max-width="500px">
+          <template v-slot:activator="{ props }">
+            <v-btn
+              prepend-icon="mdi-plus-circle"
+              color="primary"
+              dark
+              class="mb-2"
+              rounded="xl"
+              v-bind="props"
             >
-          </v-form>
-        </v-card-text>
-      </v-card>
-    </v-dialog>
+              Add Task
+            </v-btn>
+          </template>
+          <v-card>
+            <v-card-title>
+              <span class="text-h5">{{ formTitle }}</span>
+            </v-card-title>
 
-    <v-data-table
-      v-model:items-per-page="itemsPerPage"
-      :headers="headers"
-      :items="tasks"
-      item-value="name"
-      class="elevation-1"
-    ></v-data-table>
-  </div>
+            <v-card-text>
+              <v-container>
+                <v-row>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="editedItem.name"
+                      label="Task Title"
+                    ></v-text-field>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-select
+                      v-model="editedItem.status"
+                      :items="statusOptions"
+                      label="Status"
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="12">
+                    <v-select
+                      v-model="editedItem.user_id"
+                      :items="userNames"
+                      label="User ID"
+                    ></v-select>
+                  </v-col>
+                  <v-col cols="12">
+                    <v-text-field
+                      v-model="editedItem.comments"
+                      label="Comments"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue-darken-1" variant="text" @click="close">
+                Cancel
+              </v-btn>
+              <v-btn color="blue-darken-1" variant="text" @click="save">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <v-dialog v-model="dialogDelete" max-width="500px">
+          <v-card>
+            <v-card-title class="text-h5"
+              >Are you sure you want to delete this item?</v-card-title
+            >
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue-darken-1" variant="text" @click="closeDelete"
+                >Cancel</v-btn
+              >
+              <v-btn
+                color="blue-darken-1"
+                variant="text"
+                @click="deleteItemConfirm"
+                >OK</v-btn
+              >
+              <v-spacer></v-spacer>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </v-toolbar>
+    </template>
+    <template v-slot:item.actions="{ item }">
+      <v-icon
+        size="small"
+        class="me-2"
+        @click="editItem(item.raw)"
+        color="primary"
+      >
+        mdi-pencil
+      </v-icon>
+      <v-icon size="small" @click="deleteItem(item.raw)" color="red">
+        mdi-delete
+      </v-icon>
+    </template>
+    <template v-slot:item.status="{ item }">
+      <v-chip :color="getColor(item.columns.status)">
+        {{ item.columns.status }}
+      </v-chip>
+    </template>
+  </v-data-table>
 </template>
-<script>
-export default {
-  data() {
-    return {
-      showAddTaskDialog: false,
-      newTask: {
-        name: "",
-        description: "",
-        assignees: "",
-        comments: "",
-      },
-      assigneeNames: ["Assignee 1", "Assignee 2", "Assignee 3"],
-      itemsPerPage: 5,
-      headers: [
-        {
-          title: "Task Title",
-          align: "start",
-          sortable: false,
-          key: "name",
-          align: "center",
-        },
-        {
-          title: "Description",
-          sortable: false,
-          align: "center",
-          key: "description",
-        },
-        {
-          title: "Assignees",
-          sortable: false,
-          align: "center",
-          key: "assignees",
-          width: "200",
-        },
-        {
-          title: "Comments",
-          sortable: false,
-          align: "center",
-          key: "comments",
-          width: "300",
-        },
-      ],
-      tasks: [
-        {
-          name: "Dummy Activity",
-          description:
-            "Dummy Activity is a hypothetical activity which requires zero time and zero resources for completion.",
-          assignees: "Haris",
-          comments: "Pls do code refactor at the end.",
-        },
-        {
-          name: "Dummy Activity",
-          description:
-            "Dummy Activity is a hypothetical activity which requires zero time and zero resources for completion.",
-          assignees: "Haris",
-          comments: "Pls do code refactor at the end.",
-        },
-        {
-          name: "Dummy Activity",
-          description:
-            "Dummy Activity is a hypothetical activity which requires zero time and zero resources for completion.",
-          assignees: "Haris",
-          comments: "Pls do code refactor at the end.",
-        },
-      ],
-    };
-  },
-  methods: {
-    createTask() {
-      // Add a new task to the tasks array with the provided data.
-      this.tasks.push({ ...this.newTask });
 
-      // Clear the input fields and close the dialog
-      this.newTask = {
-        name: "",
-        description: "",
-        assignees: "",
-        comments: "",
-      };
-      this.showAddTaskDialog = false;
+<script>
+import { mapGetters } from "vuex";
+
+export default {
+  data: () => ({
+    dialog: false,
+    dialogDelete: false,
+    statusOptions: ["active", "rejected", "pending"],
+    editedIndex: -1,
+    editedItem: {
+      name: "",
+      status: "",
+      user_id: "",
+      comments: "",
+    },
+    defaultItem: {
+      name: "",
+      status: "",
+      user_id: "",
+      comments: "",
+    },
+  }),
+
+  computed: {
+    ...mapGetters(["getTaskData", "getUserNames"]),
+    formTitle() {
+      return this.editedIndex === -1 ? "Create Task" : "Edit Item";
+    },
+    headers() {
+      return this.getTaskData.headers; // Access headers from the store
+    },
+    tasks() {
+      return this.getTaskData.tasks; // Access tasks from the store
+    },
+    userNames() {
+      return this.getUserNames; // Access user names from the store
+    },
+  },
+
+  watch: {
+    dialog(val) {
+      val || this.close();
+    },
+    dialogDelete(val) {
+      val || this.closeDelete();
+    },
+  },
+
+  methods: {
+    getColor(status) {
+      if (status == "active") return "green";
+      else if (status == "pending") return "blue";
+      else return "red";
+    },
+
+    editItem(item) {
+      this.editedIndex = this.tasks.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialog = true;
+    },
+
+    deleteItem(item) {
+      this.editedIndex = this.tasks.indexOf(item);
+      this.editedItem = Object.assign({}, item);
+      this.dialogDelete = true;
+    },
+
+    deleteItemConfirm() {
+      this.tasks.splice(this.editedIndex, 1);
+      this.closeDelete();
+    },
+
+    close() {
+      this.dialog = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeDelete() {
+      this.dialogDelete = false;
+      this.$nextTick(() => {
+        this.editedItem = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    save() {
+      if (this.editedIndex > -1) {
+        Object.assign(this.tasks[this.editedIndex], this.editedItem);
+      } else {
+        this.tasks.push(this.editedItem);
+      }
+      this.close();
     },
   },
 };
 </script>
-
-<style>
-.add-button-container {
-  text-align: right;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin-right: 10px;
-}
-
-.close-button-container {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-}
-
-.bold-icon {
-  font-weight: bold;
-  cursor: pointer;
-}
-
-.right-icon {
-  float: right;
-}
-</style>
