@@ -65,7 +65,21 @@ export default createStore({
     },
   },
   getters: {},
-  mutations: {},
-  actions: {},
+  mutations: {
+    setUsers(state, users) {
+      state.userData.users = users;
+    },
+  },
+  actions: {
+    async fetchUsers({ commit }) {
+      try {
+        const res = await axios.get("http://10.0.10.41:3500/api/users");
+        commit("setUsers", res.data);
+        console.log(response.data);
+      } catch (err) {
+        alert(err);
+      }
+    },
+  },
   modules: {},
 });
