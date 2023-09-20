@@ -49,5 +49,7 @@ const users = computed(() => store.state.userData.users);
 const getUsers = computed(() => store.getters.getUsers);
 onMounted(() => {
   store.dispatch("fetchUsers");
-});
+});onMounted(() => {
+  store.dispatch("fetchUsers");
+}); b
 </script>
