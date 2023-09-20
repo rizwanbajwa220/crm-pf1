@@ -11,13 +11,14 @@
       </v-app-bar>
   
       <v-main>
-        <!--  -->
+        <Department />
       </v-main>
     </v-app>
   </template>
   
   <script setup>
     import { ref } from 'vue'
+    import Department from '@/pages/Department.vue'
   
     const drawer = ref(null)
   </script>
