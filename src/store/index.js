@@ -64,7 +64,9 @@ export default createStore({
       ],
     },
   },
-  getters: {},
+  getters: {
+    getUsers: (state) => state.userData.users,
+  },
   mutations: {
     setUsers(state, users) {
       state.userData.users = users;
@@ -73,7 +75,15 @@ export default createStore({
   actions: {
     async fetchUsers({ commit }) {
       try {
-        const res = await axios.get("http://10.0.10.41:3500/api/users");
+        const token = "28|rjB7LM94hlukKSlwp4EC7wZUCCtmT3vR4741ejLt9c1f2acb";
+        const res = await axios.get("http://10.0.10.41:3500/api/users", {
+          // send token
+          headers: {
+            // send token
+            // Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
+          },
+        });
         commit("setUsers", res.data);
         console.log(response.data);
       } catch (err) {

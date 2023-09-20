@@ -36,7 +36,7 @@ export default {
 </script>
 
 <script setup>
-import { computed } from "vue";
+import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 
 //accessing store
@@ -46,4 +46,8 @@ const store = useStore();
 const itemsPerPage = computed(() => store.state.userData.itemsPerPage);
 const headers = computed(() => store.state.userData.headers);
 const users = computed(() => store.state.userData.users);
+const getUsers = computed(() => store.getters.getUsers);
+onMounted(() => {
+  store.dispatch("fetchUsers");
+});
 </script>
