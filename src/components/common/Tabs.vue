@@ -15,7 +15,7 @@
             item-value="name"
         /></v-window-item>
 
-        <v-window-item value="two"> Two </v-window-item>
+        <v-window-item value="two"> <RolesTable /></v-window-item>
       </v-window>
     </v-card-text>
   </v-card>
@@ -23,10 +23,15 @@
 
 <script>
 import UserManagement from "@/components/common/crmTable";
+import RolesTable from "@/components/RoleManagement/RolesTable";
 export default {
   data: () => ({
     tab: null,
   }),
+  components: {
+    UserManagement,
+    RolesTable,
+  },
 };
 </script>
 
