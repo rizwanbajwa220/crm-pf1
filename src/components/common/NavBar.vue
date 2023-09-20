@@ -21,34 +21,18 @@
     </v-app-bar>
 
     <v-main>
-      <UserManagement
-        :headers="headers"
-        :items="users"
-        :itemsPerPage="itemsPerPage"
-        item-value="name"
-      />
+      <Tabs />
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
-import { useStore } from "vuex";
-
-//accessing store
-const store = useStore();
-
-//getting data from store
-const itemsPerPage = computed(() => store.state.userData.itemsPerPage);
-const headers = computed(() => store.state.userData.headers);
-const users = computed(() => store.state.userData.users);
-
+import { ref } from "vue";
 const drawer = ref(null);
 </script>
 
 <script>
-import UserManagement from "@/components/User management/crmTable";
-
+import Tabs from "@/components/common/Tabs";
 export default {
   data: () => ({
     drawer: null,
@@ -78,9 +62,6 @@ export default {
       this.drawer = false; // Close the drawer when an item is selected (optional)
       console.log("clicked", item);
     },
-  },
-  components: {
-    UserManagement,
   },
 };
 </script>
