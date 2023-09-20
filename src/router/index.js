@@ -2,6 +2,8 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import UpdateModal from '@/components/updateRoles/UpdateModal.vue'
 import RolesTable from '@/components/RoleManagement/RolesTable.vue'
+import Login from '@/views/Login.vue'
+import SignUp from '@/views/SignUp.vue'
 
 const routes = [
   {
@@ -22,6 +24,16 @@ const routes = [
         path: '/add-roles',
         name: 'add-roles',
         component: RolesTable,
+      },
+      {
+        path: '/login',
+        name: 'login',
+        component: Login,
+      },
+      {
+        path: '/signup',
+        name: 'signup',
+        component: SignUp,
       }
     ],
   },
