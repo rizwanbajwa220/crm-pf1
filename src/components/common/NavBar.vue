@@ -32,13 +32,23 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
+import { useStore } from "vuex";
+
+//accessing store
+const store = useStore();
+
+//getting data from store
+const itemsPerPage = computed(() => store.state.userData.itemsPerPage);
+const headers = computed(() => store.state.userData.headers);
+const users = computed(() => store.state.userData.users);
 
 const drawer = ref(null);
 </script>
 
 <script>
 import UserManagement from "@/components/User management/crmTable";
+
 export default {
   data: () => ({
     drawer: null,
@@ -61,71 +71,6 @@ export default {
         value: 3,
       },
     ],
-    itemsPerPage: 7,
-    headers: [
-      {
-        title: "First Name",
-        align: "start",
-        sortable: false,
-        key: "name",
-      },
-      { title: "Last Name", align: "center", key: "lastName" },
-      { title: "Email", align: "center", key: "Email" },
-      { title: "Role", align: "center", key: "role" },
-      { title: "Actions", align: "center", key: "Actions" },
-    ],
-    users: [
-      {
-        name: "Kashif",
-        lastName: "Saleem",
-        Email: "kashif@example.com",
-        role: "Admin",
-        Actions: [
-          { icon: "mdi-pencil", color: "primary" },
-          { icon: "mdi-delete", color: "error" },
-        ],
-      },
-      {
-        name: "Kashif",
-        lastName: "Saleem",
-        Email: "kashif@example.com",
-        role: "Admin",
-        Actions: [
-          { icon: "mdi-pencil", color: "primary" },
-          { icon: "mdi-delete", color: "error" },
-        ],
-      },
-      {
-        name: "Kashif",
-        lastName: "Saleem",
-        Email: "kashif@example.com",
-        role: "Admin",
-        Actions: [
-          { icon: "mdi-pencil", color: "primary" },
-          { icon: "mdi-delete", color: "error" },
-        ],
-      },
-      {
-        name: "Kashif",
-        lastName: "Saleem",
-        Email: "kashif@example.com",
-        role: "Admin",
-        Actions: [
-          { icon: "mdi-pencil", color: "primary" },
-          { icon: "mdi-delete", color: "error" },
-        ],
-      },
-      {
-        name: "Kashif",
-        lastName: "Saleem",
-        Email: "kashif@example.com",
-        role: "Admin",
-        Actions: [
-          { icon: "mdi-pencil", color: "primary" },
-          { icon: "mdi-delete", color: "error" },
-        ],
-      },
-    ],
   }),
   methods: {
     selectItem(item) {
@@ -133,6 +78,9 @@ export default {
       this.drawer = false; // Close the drawer when an item is selected (optional)
       console.log("clicked", item);
     },
+  },
+  components: {
+    UserManagement,
   },
 };
 </script>
