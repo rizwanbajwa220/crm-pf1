@@ -1,25 +1,23 @@
 import { createStore } from "vuex";
-
+import axios from "axios";
 export default createStore({
   state: {
     userData: {
       itemsPerPage: 5,
       headers: [
         {
-          title: "First Name",
+          title: "Name",
           align: "start",
           sortable: false,
           key: "name",
         },
-        { title: "Last Name", align: "center", key: "lastName" },
         { title: "Email", align: "center", key: "Email" },
-        { title: "Role", align: "center", key: "role" },
+        { title: "Created_At", align: "center", key: "role" },
         { title: "Actions", align: "center", key: "Actions" },
       ],
       users: [
         {
           name: "Kashif",
-          lastName: "Saleem",
           Email: "kashif@example.com",
           role: "Admin",
           Actions: [
@@ -29,7 +27,6 @@ export default createStore({
         },
         {
           name: "Kashif",
-          lastName: "Saleem",
           Email: "kashif@example.com",
           role: "Admin",
           Actions: [
@@ -39,7 +36,6 @@ export default createStore({
         },
         {
           name: "Kashif",
-          lastName: "Saleem",
           Email: "kashif@example.com",
           role: "Admin",
           Actions: [
@@ -49,7 +45,6 @@ export default createStore({
         },
         {
           name: "Kashif",
-          lastName: "Saleem",
           Email: "kashif@example.com",
           role: "Admin",
           Actions: [
@@ -59,7 +54,6 @@ export default createStore({
         },
         {
           name: "Kashif",
-          lastName: "Saleem",
           Email: "kashif@example.com",
           role: "Admin",
           Actions: [
