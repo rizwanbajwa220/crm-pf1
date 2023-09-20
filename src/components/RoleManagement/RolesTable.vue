@@ -24,7 +24,19 @@
 
     <!-- Right Column: Permissions -->
     <v-col cols="12" md="9">
-      <h3 class="mb-3">Permissions</h3>
+      <v-row class="pt-1" density="compact">
+        <v-col cols="9" md="7" density="compact">
+          <h3 class="pt-5">Permissions</h3></v-col
+        >
+        <!-- on checking the select all all the checkboxes should be selected -->
+        <v-col
+          ><v-checkbox
+            @click="selectAllPermissions = !selectAllPermissions"
+            label="Select All"
+          ></v-checkbox
+        ></v-col>
+        <v-col><v-checkbox label="Save"></v-checkbox></v-col>
+      </v-row>
       <v-row>
         <!-- First Permissions Column -->
         <v-col cols="12" md="6" density="compact">
@@ -34,6 +46,7 @@
             :key="permission"
             :label="permission"
             color="primary"
+            v-model="selectAllPermissions"
           />
         </v-col>
 
@@ -45,6 +58,7 @@
             :key="permission"
             :label="permission"
             color="primary"
+            v-model="selectAllPermissions"
           />
         </v-col>
       </v-row>
@@ -85,6 +99,7 @@ export default {
         "Invite merchant",
       ],
       selectedPermissions: [],
+      selectAllPermissions: false, // New data property
     };
   },
 };
