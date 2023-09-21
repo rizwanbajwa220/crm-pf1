@@ -1,5 +1,5 @@
 <template>
-  <v-app id="inspire">
+<v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
       <v-img
         src="@/assets/logo.svg"
@@ -47,6 +47,6 @@ export default {
 
 <style scoped>
 .icon-style {
-  margin-right: 5px;
+    margin-right: 5px;
 }
 </style>

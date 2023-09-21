@@ -3,18 +3,26 @@ import axios from "axios";
 const BASE_URL = "http://10.0.10.41:3500";
 export default createStore({
   state: {
-    userData: {
-      itemsPerPage: 3,
+    departmentData: {
+      itemsPerPage: 5,
       headers: [
         {
           title: "Name",
-          align: "start",
-          sortable: false,
+          align: "center",
           key: "name",
         },
-        { title: "Email", align: "center", key: "Email" },
-        { title: "Created_At", align: "center", key: "role" },
-        { title: "Actions", align: "center", key: "Actions" },
+        {
+          title: "Created At",
+          align: "center",
+          key: "createdAt",
+        },
+        {
+          title: "Actions",
+          align: "center",
+          key: "actions",
+        },
+      ],
+      departments: [
       ],
       users: null,
       // [
@@ -106,6 +114,7 @@ export default createStore({
       getItemsPerPage: (state) => state.userData.itemsPerPage,
       getTaskData: (state) => state.taskData,
       getUserNames: (state) => state.userData.users.map((user) => user.id),
+      allDepartments: (state) => state.departmentData.departments,
     },
     mutations: {
       setUsers(state, users) {
