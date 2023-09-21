@@ -4,7 +4,7 @@ const BASE_URL = "http://10.0.10.41:3500";
 export default createStore({
   state: {
     userData: {
-      itemsPerPage: 5,
+      itemsPerPage: 3,
       headers: [
         {
           title: "Name",
@@ -68,6 +68,8 @@ export default createStore({
   },
   getters: {
     getUsers: (state) => state.userData.users,
+    getHeaders: (state) => state.userData.headers,
+    getItemsPerPage: (state) => state.userData.itemsPerPage,
   },
   mutations: {
     setUsers(state, users) {
