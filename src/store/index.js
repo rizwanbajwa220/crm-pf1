@@ -1,5 +1,6 @@
 import { createStore } from "vuex";
 import axios from "axios";
+const BASE_URL = "http://10.0.10.41:3500";
 export default createStore({
   state: {
     userData: {
@@ -15,53 +16,54 @@ export default createStore({
         { title: "Created_At", align: "center", key: "role" },
         { title: "Actions", align: "center", key: "Actions" },
       ],
-      users: [
-        {
-          name: "Kashif",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
-        },
-        {
-          name: "Kashif",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
-        },
-        {
-          name: "Kashif",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
-        },
-        {
-          name: "Kashif",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
-        },
-        {
-          name: "Kashif",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
-        },
-      ],
+      users: null,
+      // [
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Saleem",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // ],
     },
   },
   getters: {
@@ -73,10 +75,24 @@ export default createStore({
     },
   },
   actions: {
+    // function to set token to local storage
+
+    async setToken({ commit }, token) {
+      try {
+        localStorage.setItem("token", token);
+        commit("setToken", token);
+      } catch (err) {
+        alert(err);
+      }
+    },
+
+    // function to fetch users
+
     async fetchUsers({ commit }) {
       try {
-        const token = "28|rjB7LM94hlukKSlwp4EC7wZUCCtmT3vR4741ejLt9c1f2acb";
-        const res = await axios.get("http://10.0.10.41:3500/api/users", {
+        // const token = "28|rjB7LM94hlukKSlwp4EC7wZUCCtmT3vR4741ejLt9c1f2acb";
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${BASE_URL}/api/users`, {
           // send token
           headers: {
             // send token
@@ -85,7 +101,7 @@ export default createStore({
           },
         });
         commit("setUsers", res.data);
-        console.log(response.data);
+        console.log(res.data);
       } catch (err) {
         alert(err);
       }
