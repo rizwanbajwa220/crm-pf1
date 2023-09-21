@@ -11,7 +11,7 @@
         <v-col cols="12" lg="7">
             <div class="custom-padding">
                 <h3 class="text-h5 font-weight-medium">Sign Up</h3>
-                <p class="mt-2">Enter your credientials to create your account</p>
+                <p class="mt-2 text-grey">Enter your credientials to create your account</p>
 
                 <v-form class="py-5" @submit.prevent="signup">
                     <div class="text-subtitle-1 text-medium-emphasis">Name</div>
@@ -40,12 +40,16 @@
                         variant="outlined" @click:append-inner="visible = !visible" v-model="confirmPassword"
                         :rules="cpasswordRules"></v-text-field>
 
-                    <!-- For displaying error message if passwords dont match -->
-                    <div v-if="error" class="error-message">{{ error }}</div>
+                    <!-- For displaying error message -->
+                    <div v-if="error" class="text-red text-body-2">{{ error }}</div>
 
                     <v-btn block color="blue-accent-4" size="large" type="submit">
                         Sign Up
                     </v-btn>
+
+                    <div class="justify-center d-flex mt-2">Already Registered?<router-link to="/login"
+                            class="text-blue ml-1">Login</router-link></div>
+
                 </v-form>
             </div>
         </v-col>
@@ -94,20 +98,27 @@ export default {
     },
     methods: {
         signup() {
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailRegex.test(this.email)) {
+                this.error = "Invalid email format";
+                return; // Exit the method to prevent further execution
+            }
             if (this.password !== this.confirmPassword) {
                 this.error = "Passwords do not match";
                 return; // Exit the method to prevent further execution
             }
-            if(this.name==''||this.email==''||this.password==''||this.confirmPassword==''){
+            if (this.name == '' || this.email == '' || this.password == '' || this.confirmPassword == '') {
                 this.error = "Fill all fields";
                 return; // Exit the method to prevent further execution
             }
+
             const formData = {
                 name: this.name,
                 email: this.email,
                 password: this.password,
                 confirmPassword: this.confirmPassword,
             };
+            this.$router.push({ name: 'login' });
             console.log('Form Data:', formData);
             this.error = '';
         },
@@ -116,10 +127,6 @@ export default {
 </script>
   
 <style scoped>
-.error-message {
-    color: red;
-    font-size: 14px;
-}
 .image-container {
     height: 100vh;
     width: 100%;
@@ -135,10 +142,6 @@ export default {
 .signup-image {
     max-width: 100%;
     max-height: 100%;
-}
-
-p {
-    color: #CFD8DC;
 }
 
 /* Center the card on small screens */

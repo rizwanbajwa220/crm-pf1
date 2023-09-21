@@ -11,7 +11,7 @@
         <v-col cols="12" lg="7">
             <div class="custom-padding">
                 <h3 class="text-h5 font-weight-medium">Login</h3>
-                <p class="mt-2">Enter your credientials to access your account</p>
+                <p class="mt-2 text-grey">Enter your credientials to access your account</p>
 
                 <v-form class="py-8" @submit.prevent="login">
                     <div class="text-subtitle-1 text-medium-emphasis">Email</div>
@@ -27,7 +27,7 @@
                         variant="outlined" @click:append-inner="visible = !visible" v-model="password"
                         :rules="passwordRules"></v-text-field>
 
-                    <div v-if="error" class="error-message">{{ error }}</div>
+                    <div v-if="error" class="text-red text-body-2">{{ error }}</div>
 
                     <a class="text-caption text-blue" href="#" rel="noopener noreferrer" target="_blank">
                         Forgot Password?</a>
@@ -35,6 +35,10 @@
                     <v-btn block class="mt-8" color="blue-accent-4" size="large" type="submit">
                         Login
                     </v-btn>
+
+                    <div class="justify-center d-flex mt-5">Don't have an account?<router-link to="/signup"
+                            class="text-blue ml-1">Sign up</router-link></div>
+
                 </v-form>
             </div>
         </v-col>
@@ -65,7 +69,12 @@ export default {
     }),
     methods: {
         login() {
-            if(this.email==''||this.password==''){
+            const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
+            if (!emailRegex.test(this.email)) {
+                this.error = "Invalid email format";
+                return; // Exit the method to prevent further execution
+            }
+            if (this.email == '' || this.password == '') {
                 this.error = "Fill all fields";
                 return;
             }
@@ -98,14 +107,6 @@ export default {
     max-height: 100%;
 }
 
-p {
-    color: #CFD8DC;
-}
-.error-message {
-    color: red;
-    font-size: 14px;
-}
-
 /* Center the card on small screens */
 @media (max-width: 768px) {
     .v-col {
@@ -113,14 +114,11 @@ p {
         justify-content: center;
         align-items: center;
     }
-
     .d-none {
         display: none !important;
     }
-
     .custom-padding {
         padding: 20px;
-        /* Override the padding */
     }
 }
 </style>
