@@ -1,58 +1,69 @@
 import { createStore } from "vuex";
-
+import axios from "axios";
+const BASE_URL = "http://10.0.10.41:3500";
 export default createStore({
   state: {
     userData: {
-      itemsPerPage: 5,
+      itemsPerPage: 3,
       headers: [
         {
-          title: "First Name",
+          title: "Name",
           align: "start",
           sortable: false,
           key: "name",
         },
-        { title: "Last Name", align: "center", key: "lastName" },
         { title: "Email", align: "center", key: "Email" },
-        { title: "Role", align: "center", key: "role" },
+        { title: "Created_At", align: "center", key: "role" },
         { title: "Actions", align: "center", key: "Actions" },
       ],
-      users: [
-        {
-          name: "Kashif",
-          lastName: "Saleem",
-          id: 1,
-          Email: "kashif@example.com",
-          role: "Admin",
-        },
-        {
-          name: "Haris",
-          lastName: "Waqar",
-          id: 2,
-          Email: "haris@example.com",
-          role: "Admin",
-        },
-        {
-          name: "Abdullah",
-          lastName: "Saeed",
-          id: 3,
-          Email: "haris@example.com",
-          role: "Admin",
-        },
-        {
-          name: "Usman",
-          lastName: "Ahmad",
-          id: 4,
-          Email: "haris@example.com",
-          role: "Admin",
-        },
-        {
-          name: "Furqan",
-          lastName: "Latif",
-          id: 5,
-          Email: "haris@example.com",
-          role: "Admin",
-        },
-      ],
+      users: null,
+      // [
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Kashif",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // {
+      //   name: "Saleem",
+      //   email: "kashif@example.com",
+      //   created_At: "Admin",
+      //   Actions: [
+      //     { icon: "mdi-pencil", color: "primary" },
+      //     { icon: "mdi-delete", color: "error" },
+      //   ],
+      // },
+      // ],
     },
     taskData: {
       itemsPerPage: 5,
@@ -89,14 +100,51 @@ export default createStore({
         },
       ],
     },
-  },
-  getters: {
-    getTaskData: (state) => state.taskData,
-    getUserNames: (state) => state.userData.users.map((user) => user.id),
-  },
-  mutations: {},
+    getters: {
+      getUsers: (state) => state.userData.users,
+      getHeaders: (state) => state.userData.headers,
+      getItemsPerPage: (state) => state.userData.itemsPerPage,
+      getTaskData: (state) => state.taskData,
+      getUserNames: (state) => state.userData.users.map((user) => user.id),
+    },
+    mutations: {
+      setUsers(state, users) {
+        state.userData.users = users;
+      },
+    },
+    actions: {
+      // function to set token to local storage
 
-  actions: {},
+      async setToken({ commit }, token) {
+        try {
+          localStorage.setItem("token", token);
+          commit("setToken", token);
+        } catch (err) {
+          alert(err);
+        }
+      },
 
-  modules: {},
+      // function to fetch users
+
+      async fetchUsers({ commit }) {
+        try {
+          // const token = "28|rjB7LM94hlukKSlwp4EC7wZUCCtmT3vR4741ejLt9c1f2acb";
+          const token = localStorage.getItem("token");
+          const res = await axios.get(`${BASE_URL}/api/users`, {
+            // send token
+            headers: {
+              // send token
+              // Authorization: `Bearer ${localStorage.getItem("token")}`,
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          commit("setUsers", res.data);
+          console.log(res.data);
+        } catch (err) {
+          alert(err);
+        }
+      },
+    },
+    modules: {},
+  },
 });
