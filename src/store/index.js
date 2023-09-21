@@ -3,6 +3,8 @@ import axios from "axios";
 const BASE_URL = "http://10.0.10.41:3500";
 export default createStore({
   state: {
+    userData: {
+      loginCredientials:null,
     departmentData: {
       itemsPerPage: 5,
       headers: [
@@ -115,10 +117,14 @@ export default createStore({
       getTaskData: (state) => state.taskData,
       getUserNames: (state) => state.userData.users.map((user) => user.id),
       allDepartments: (state) => state.departmentData.departments,
+      registerUser: (state) => state.userData.loginCredientials,
     },
     mutations: {
       setUsers(state, users) {
         state.userData.users = users;
+      },
+      registerUser(state, users) {
+        state.userData.loginCredientials = users;
       },
     },
     actions: {
@@ -154,6 +160,23 @@ export default createStore({
         }
       },
     },
-    modules: {},
+    async registerUser({ commit }) {
+      try {
+        const res = await axios.post("http://10.0.10.41:3500/api/users/register", {
+          body:{
+            name: "Kashif",
+            email: "abdullah@gmail.com",
+            password:"123456",
+            cpassword:"123456"
+          }
+        });
+        commit("registerUser", res.data);
+        console.log(response.data);
+      } catch (err) {
+        alert(err);
+      }
+    },
   },
-});
+  
+  modules: {},
+}});
