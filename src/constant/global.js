@@ -2,10 +2,10 @@ export const navbarItems = [
   {
     title: "User Managment",
     icon: "mdi-account-group",
-    //   attrs: {
-    //     to: "/user-managment",
-    //     "active-class": "primary--text list-item-active",
-    //   },
+      attrs: {
+        to: "/user-managment",
+        "active-class": "primary--text list-item-active",
+      },
     userPermissions: [
       "can-access-all-users",
       "can-view-members",
@@ -18,10 +18,10 @@ export const navbarItems = [
   {
     title: "Task Managment",
     icon: "mdi-format-list-bulleted",
-    // attrs: {
-    //   to: "/task-managment",
-    //   "active-class": "primary--text list-item-active",
-    // },
+    attrs: {
+      to: "/task-managment",
+      "active-class": "primary--text list-item-active",
+    },
     userPermissions: [
       "can-create-task",
       "can-view-task",
@@ -33,10 +33,10 @@ export const navbarItems = [
   {
     title: "Department Managment",
     icon: "mdi-office-building",
-    // attrs: {
-    //   to: "/department-managment",
-    //   "active-class": "primary--text list-item-active",
-    // },
+    attrs: {
+      to: "/department-managment",
+      "active-class": "primary--text list-item-active",
+    },
     userPermissions: [
       "can-add-department",
       "can-update-department",
