@@ -1,5 +1,5 @@
 <template>
-<v-app id="inspire">
+  <v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
       <v-img
         src="@/assets/logo.svg"
@@ -7,7 +7,6 @@
         width="142px"
         height="45px"
       ></v-img>
-      <SideBarItems />
     </v-navigation-drawer>
 
     <v-app-bar elevation="1">
@@ -17,17 +16,13 @@
     </v-app-bar>
 
     <v-main>
-    <Chatbox/>  
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import SideBarItems from "../common/SideBar.vue";
-import Chatbox from "../ChatBox.vue"
-
-const drawer = ref(null);
+import Chatbox from "../ChatBox.vue";
 </script>
 
 <script>
@@ -43,14 +38,13 @@ export default {
     },
   },
   components: {
-    SideBarItems,
-    Chatbox
+    Chatbox,
   },
 };
 </script>
 
 <style scoped>
 .icon-style {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 </style>
