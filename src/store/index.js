@@ -2,76 +2,56 @@ import { createStore } from "vuex";
 
 export default createStore({
   state: {
-    userData: {
+    departmentData: {
       itemsPerPage: 5,
       headers: [
         {
-          title: "First Name",
-          align: "start",
-          sortable: false,
+          title: "Name",
+          align: "center",
           key: "name",
         },
-        { title: "Last Name", align: "center", key: "lastName" },
-        { title: "Email", align: "center", key: "Email" },
-        { title: "Role", align: "center", key: "role" },
-        { title: "Actions", align: "center", key: "Actions" },
+        {
+          title: "Created At",
+          align: "center",
+          key: "createdAt",
+        },
+        {
+          title: "Actions",
+          align: "center",
+          key: "actions",
+        },
       ],
-      users: [
+      departments: [
         {
-          name: "Kashif",
-          lastName: "Saleem",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
+          name: "HR",
+          createdAt: "2023-09-19 AT 8:15:00PM",
         },
         {
-          name: "Kashif",
-          lastName: "Saleem",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
+          name: "Finance",
+          createdAt: "2023-09-20 AT 14:30:00PM",
         },
         {
-          name: "Kashif",
-          lastName: "Saleem",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
+          name: "Marketing",
+          createdAt: "2023-09-19 AT 8:15:00PM",
         },
         {
-          name: "Kashif",
-          lastName: "Saleem",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
+          name: "IT",
+          createdAt: "2023-09-19 AT 8:15:00PM",
         },
         {
-          name: "Kashif",
-          lastName: "Saleem",
-          Email: "kashif@example.com",
-          role: "Admin",
-          Actions: [
-            { icon: "mdi-pencil", color: "primary" },
-            { icon: "mdi-delete", color: "error" },
-          ],
+          name: "Sales",
+          createdAt: "2023-09-19 AT 8:15:00PM",
         },
       ],
     },
   },
-  getters: {},
-  mutations: {},
-  actions: {},
-  modules: {},
+  getters: {
+    allDepartments: (state) => state.departmentData.departments,
+  },
+  mutations: {
+  },
+  actions: {
+  },
+  modules: {
+  },
 });
