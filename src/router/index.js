@@ -5,7 +5,6 @@ import RolesTable from "@/components/RoleManagement/RolesTable.vue";
 import UserManagement from "@/pages/User management/UserManagement";
 import Login from '@/views/Login.vue'
 import SignUp from '@/views/SignUp.vue'
-import Department from '@/pages/Department.vue'
 
 
 const routes = [
@@ -17,37 +16,30 @@ const routes = [
         path: "",
         name: "Home",
         component: () =>
-          import(/* webpackChunkName: "home" */ "@/views/Home.vue"),
+          import(/* webpackChunkName: "home" */ "@/views/Login.vue"),
+      },
+    ],
+  },
+  {
+    path: "/admin-dashboard",
+    component: () => import("../components/common/NavBar.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("../pages/User management/UserManagement.vue"),
       },
       {
-        path: "/update-roles",
-        name: "update-roles",
-        component: UpdateModal,
+        path: "/task-managment",
+        component: () => import("@/pages/TaskManagementPage.vue"),
       },
       {
-        path: "/add-roles",
-        name: "add-roles",
-        component: RolesTable,
-      },
-      {
-        path: '/login',
-        name: 'login',
-        component: Login,
-      },
-      {
-        path: '/signup',
-        name: 'signup',
-        component: SignUp,
+        path: "/department-managment",
+        component: () => import("@/pages/Department.vue"),
       },
       {
         path: "/user-management",
         name: "user-management",
         component: UserManagement,
-      },
-      {
-        path: "/departments",
-        name: "Department",
-        component: Department,
       },
     ],
   },
