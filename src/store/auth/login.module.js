@@ -1,4 +1,5 @@
 import ApiServices from '../../services/Api.js'; // Replace with the actual path
+import router from '../../router/index.js';
 
 
 const state = {
@@ -20,8 +21,8 @@ const state = {
     async loginUser({ commit }, { email, password }) {
       try {
         const response = await ApiServices.login(email, password);
-        // console.log("pepre",state.permissions)
         commit('SET_LOGIN_CREDENTIALS', response);
+        router.push({ path: '/admin-dashboard' });
 
          // Log state.permissions in the next tick of the event loop
       setTimeout(() => {

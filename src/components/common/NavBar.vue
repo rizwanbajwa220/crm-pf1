@@ -1,12 +1,7 @@
 <template>
-<v-app id="inspire">
+  <v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
-      <v-img
-        src="@/assets/logo.svg"
-        class="ml-7 my-3"
-        width="142px"
-        height="45px"
-      ></v-img>
+      <v-img src="@/assets/logo.svg" class="ml-7 my-3" width="142px" height="45px"></v-img>
     </v-navigation-drawer>
 
     <v-app-bar elevation="1">
@@ -16,7 +11,7 @@
     </v-app-bar>
 
     <v-main>
-     <router-view></router-view>
+      <router-view></router-view>
     </v-main>
   </v-app>
 </template>
@@ -45,6 +40,6 @@ export default {
 
 <style scoped>
 .icon-style {
-    margin-right: 5px;
+  margin-right: 5px;
 }
 </style>
