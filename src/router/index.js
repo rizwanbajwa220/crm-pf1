@@ -35,6 +35,10 @@ const routes = [
         path: "/permission",
         component: () => import("pages/Admin/PermissionPage.vue"),
       },
+      {
+        path: "/task-management",
+        component: () => import("pages/TaskManagementPage.vue"),
+      },
     ],
   },
 ];

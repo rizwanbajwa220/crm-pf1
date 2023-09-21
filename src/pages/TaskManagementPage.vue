@@ -227,7 +227,7 @@ export default {
 
   mounted() {
     // Calling the action to fetch tasks when the component is created
-    this.fetchTasks();
+    this.getTasks();
   },
 };
 </script>
