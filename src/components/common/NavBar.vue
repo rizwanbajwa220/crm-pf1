@@ -1,84 +1,47 @@
 <template>
 <v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
-        <v-list :items="items">
-            <template v-slot:prepend="{ item }">
-                <v-list-item @click="selectItem(item)">
-                    <v-list-item-icon>
-                        <v-icon class="icon-style">{{ item.icon }}</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-content> </v-list-item-content>
-                </v-list-item>
-            </template>
-        </v-list>
+      <v-img
+        src="@/assets/logo.svg"
+        class="ml-7 my-3"
+        width="142px"
+        height="45px"
+      ></v-img>
+      <SideBarItems />
     </v-navigation-drawer>
 
-    <v-app-bar>
-        <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-        <v-app-bar-title>{{
-        selectedItem ? selectedItem : "User Management"
-      }}</v-app-bar-title>
+    <v-app-bar elevation="1">
+      <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
+
+      <v-app-bar-title>Application</v-app-bar-title>
     </v-app-bar>
 
-    <v-main>
-        <Department />
-
-    </v-main>
-</v-app>
+    <v-main> </v-main>
+  </v-app>
 </template>
 
-<script>
-import {
-    ref,
-    computed
-} from "vue";
-import {
-    useStore
-} from "vuex";
-import Department from "@/pages/Department.vue";
-
-
-// Accessing the store
-const store = useStore();
-
-// Getting data from the store
-const itemsPerPage = computed(() => store.state.departmentData.itemsPerPage);
-const headers = computed(() => store.state.departmentData.headers);
-const departments = computed(() => store.state.departmentData.departments);
+<script setup>
+import { ref } from "vue";
+import SideBarItems from "../common/SideBar.vue";
 
 const drawer = ref(null);
+</script>
 
+<script>
 export default {
-    data: () => ({
-        drawer: null,
-        selectedItem: null,
-        items: [{
-                title: "Department Management",
-                icon: "mdi-office-building",
-                value: 1,
-            },
-            {
-                title: "Task Management",
-                icon: "mdi-format-list-bulleted",
-                value: 2,
-            },
-            {
-                title: "Role Management",
-                icon: "mdi-account-key",
-                value: 3,
-            },
-        ],
-    }),
-    methods: {
-        selectItem(item) {
-            this.selectedItem = item.title;
-            this.drawer = false;
-            console.log("clicked", item);
-        },
+  data: () => ({
+    drawer: null,
+  }),
+  methods: {
+    selectItem(item) {
+      this.selectedItem = item.title;
+      this.drawer = false; // Close the drawer when an item is selected (optional)
+      console.log("clicked", item);
     },
-    components: {
-        Department,
-    },
+  },
+  components: {
+    SideBarItems,
+  },
 };
 </script>
 

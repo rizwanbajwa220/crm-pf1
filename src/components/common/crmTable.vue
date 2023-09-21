@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import AddButton from "./AddButon.vue";
+import AddButton from "@/pages/User management/AddButon";
 export default {
   name: "UserManagement",
   props: {
