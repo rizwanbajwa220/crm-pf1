@@ -8,12 +8,8 @@
     <v-card-text>
       <v-window v-model="tab">
         <v-window-item value="one">
-          <UserManagement
-            :headers="headers"
-            :items="getUsers"
-            :itemsPerPage="getItemsPerPage"
-            item-value="name"
-        /></v-window-item>
+          <UserManagement />
+        </v-window-item>
 
         <v-window-item value="two"> <RolesTable /></v-window-item>
       </v-window>
@@ -22,6 +18,7 @@
 </template>
 
 <script>
+// import { mapGetters, mapActions } from "vuex";
 import UserManagement from "@/components/common/crmTable";
 import RolesTable from "@/components/RoleManagement/RolesTable";
 export default {
@@ -32,10 +29,21 @@ export default {
     UserManagement,
     RolesTable,
   },
+  // computed: {
+  //   ...mapGetters(["getUsers", "getItemsPerPage", "getHeaders"]),
+  // },
+  // methods: {
+  //   ...mapActions(["fetchUsers"]),
+  // },
+  // mounted() {
+  //   this.fetchUsers();
+  // },
 };
 </script>
 
-<script setup>
+<!-- <script setup>
+import UserManagement from "@/components/common/crmTable";
+import RolesTable from "@/components/RoleManagement/RolesTable";
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 
@@ -43,12 +51,18 @@ import { useStore } from "vuex";
 const store = useStore();
 
 //getting data from store
-// const users = computed(() => store.state.userData.users);
+const users = computed(() => store.state.userData.users);
+console.log("User data: ", users);
 
 const headers = computed(() => store.getters.getHeaders);
 const getUsers = computed(() => store.getters.getUsers);
 const getItemsPerPage = computed(() => store.getters.getItemsPerPage);
+
 onMounted(() => {
   store.dispatch("fetchUsers");
 });
-</script>
+
+//check if the data is fetched
+console.log("Headers: ", headers);
+console.log("Users data: ", getUsers);
+</script> -->
