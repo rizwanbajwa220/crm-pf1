@@ -16,24 +16,23 @@ const routes = [
   },
   {
     path: "/admin-dashboard",
-    meta: { role: "root" },
-    component: () => import("@/components/common/NavBar.vue"),
+    component: () => import("../components/common/NavBar.vue"),
     children: [
+      {
+        path: "",
+        component: () => import("../pages/User management/UserManagement.vue"),
+      },
+      {
+        path: "/task-managment",
+        component: () => import("@/pages/TaskManagementPage.vue"),
+      },
+      {
+        path: "/department-managment",
+        component: () => import("@/pages/Department.vue"),
+      },
       // {
-      //   path: "",
-      //   component: () => import("pages/Admin/DashBoard.vue"),
-      // },
-      // {
-      //   path: "/user",
-      //   component: () => import("pages/Admin/UserPage.vue"),
-      // },
-      // {
-      //   path: "/role",
-      //   component: () => import("pages/Admin/RolePage.vue"),
-      // },
-      // {
-      //   path: "/permission",
-      //   component: () => import("pages/Admin/PermissionPage.vue"),
+      //   path: "/team",
+      //   component: () => import(""),
       // },
     ],
   },

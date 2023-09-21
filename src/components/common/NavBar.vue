@@ -7,7 +7,6 @@
         width="142px"
         height="45px"
       ></v-img>
-      <SideBarItems />
     </v-navigation-drawer>
 
     <v-app-bar elevation="1">
@@ -17,17 +16,13 @@
     </v-app-bar>
 
     <v-main>
-    <Chatbox/>  
+     <router-view></router-view>
     </v-main>
   </v-app>
 </template>
 
 <script setup>
-import { ref } from "vue";
-import SideBarItems from "../common/SideBar.vue";
 import Chatbox from "../ChatBox.vue"
-
-const drawer = ref(null);
 </script>
 
 <script>
@@ -43,7 +38,6 @@ export default {
     },
   },
   components: {
-    SideBarItems,
     Chatbox
   },
 };
