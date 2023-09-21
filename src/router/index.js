@@ -5,6 +5,7 @@ import RolesTable from "@/components/RoleManagement/RolesTable.vue";
 import UserManagement from "@/pages/User management/UserManagement";
 import Login from '@/views/Login.vue'
 import SignUp from '@/views/SignUp.vue'
+import Department from '@/pages/Department.vue'
 
 
 const routes = [
@@ -42,6 +43,11 @@ const routes = [
         path: "/user-management",
         name: "user-management",
         component: UserManagement,
+      },
+      {
+        path: "/departments",
+        name: "Department",
+        component: Department,
       },
     ],
   },
