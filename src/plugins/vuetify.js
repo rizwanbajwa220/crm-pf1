@@ -8,10 +8,10 @@
 import "@mdi/font/css/materialdesignicons.css";
 import "vuetify/styles";
 
+
+
 // Composables
 import { createVuetify } from "vuetify";
-
-//Tables
 import {
   VDataTable,
   VDataTableServer,
@@ -26,6 +26,12 @@ export default createVuetify({
     VDataTableVirtual,
   },
   theme: {
+    components: {
+      VDataTable,
+      VDataTableServer,
+      VDataTableVirtual,
+    },
+
     themes: {
       light: {
         colors: {
@@ -34,10 +40,5 @@ export default createVuetify({
         },
       },
     },
-  },
-  components: {
-    VDataTable,
-    VDataTableServer,
-    VDataTableVirtual,
   },
 });

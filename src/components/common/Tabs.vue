@@ -10,8 +10,8 @@
         <v-window-item value="one">
           <UserManagement
             :headers="headers"
-            :items="users"
-            :itemsPerPage="itemsPerPage"
+            :items="getUsers"
+            :itemsPerPage="getItemsPerPage"
             item-value="name"
         /></v-window-item>
 
@@ -43,10 +43,11 @@ import { useStore } from "vuex";
 const store = useStore();
 
 //getting data from store
-const itemsPerPage = computed(() => store.state.userData.itemsPerPage);
-const headers = computed(() => store.state.userData.headers);
-const users = computed(() => store.state.userData.users);
+// const users = computed(() => store.state.userData.users);
+
+const headers = computed(() => store.getters.getHeaders);
 const getUsers = computed(() => store.getters.getUsers);
+const getItemsPerPage = computed(() => store.getters.getItemsPerPage);
 onMounted(() => {
   store.dispatch("fetchUsers");
 });
