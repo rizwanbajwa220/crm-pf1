@@ -1,11 +1,5 @@
 // Composables
 import { createRouter, createWebHistory } from "vue-router";
-import UpdateModal from "@/components/updateRoles/UpdateModal.vue";
-import RolesTable from "@/components/RoleManagement/RolesTable.vue";
-import UserManagement from "@/pages/User management/UserManagement";
-import Login from '@/views/Login.vue'
-import SignUp from '@/views/SignUp.vue'
-
 
 const routes = [
   {
@@ -16,32 +10,30 @@ const routes = [
         path: "",
         name: "Home",
         component: () =>
-          import(/* webpackChunkName: "home" */ "@/views/Home.vue"),
+          import(/* webpackChunkName: "home" */ "@/views/Login.vue"),
+      },
+    ],
+  },
+  {
+    path: "/admin-dashboard",
+    meta: { role: "root" },
+    component: () => import("@common/Navbar.vue"),
+    children: [
+      {
+        path: "",
+        component: () => import("pages/Admin/DashBoard.vue"),
       },
       {
-        path: "/update-roles",
-        name: "update-roles",
-        component: UpdateModal,
+        path: "/user",
+        component: () => import("pages/Admin/UserPage.vue"),
       },
       {
-        path: "/add-roles",
-        name: "add-roles",
-        component: RolesTable,
+        path: "/role",
+        component: () => import("pages/Admin/RolePage.vue"),
       },
       {
-        path: '/login',
-        name: 'login',
-        component: Login,
-      },
-      {
-        path: '/signup',
-        name: 'signup',
-        component: SignUp,
-      },
-      {
-        path: "/user-management",
-        name: "user-management",
-        component: UserManagement,
+        path: "/permission",
+        component: () => import("pages/Admin/PermissionPage.vue"),
       },
     ],
   },

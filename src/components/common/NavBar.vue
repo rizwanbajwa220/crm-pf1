@@ -16,13 +16,16 @@
       <v-app-bar-title>Application</v-app-bar-title>
     </v-app-bar>
 
-    <v-main> </v-main>
+    <v-main>
+    <Chatbox/>  
+    </v-main>
   </v-app>
 </template>
 
 <script setup>
 import { ref } from "vue";
 import SideBarItems from "../common/SideBar.vue";
+import Chatbox from "../ChatBox.vue"
 
 const drawer = ref(null);
 </script>
@@ -41,6 +44,7 @@ export default {
   },
   components: {
     SideBarItems,
+    Chatbox
   },
 };
 </script>
