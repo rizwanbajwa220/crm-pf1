@@ -16,16 +16,17 @@ export default createStore({
         { title: "Created_At", align: "center", key: "role" },
         { title: "Actions", align: "center", key: "Actions" },
       ],
-      users: null,
-      // [
-      // {
-      //   name: "Kashif",
-      //   email: "kashif@example.com",
-      //   created_At: "Admin",
-      //   Actions: [
-      //     { icon: "mdi-pencil", color: "primary" },
-      //     { icon: "mdi-delete", color: "error" },
-      //   ],
+      users: [
+        {
+          name: "Kashif",
+          email: "kashif@example.com",
+          created_At: "Admin",
+          Actions: [
+            { icon: "mdi-pencil", color: "primary" },
+            { icon: "mdi-delete", color: "error" },
+          ],
+        },
+      ],
       // },
       // {
       //   name: "Kashif",
@@ -94,57 +95,61 @@ export default createStore({
         {
           name: "Task 1",
           status: "active",
-          user_id: 6,
+          user_id: 2,
           comments: "This is a sample task",
           created_at: "2023-09-18T11:23:42.000000Z",
         },
       ],
     },
-    getters: {
-      getUsers: (state) => state.userData.users,
-      getHeaders: (state) => state.userData.headers,
-      getItemsPerPage: (state) => state.userData.itemsPerPage,
-      getTaskData: (state) => state.taskData,
-      getUserNames: (state) => state.userData.users.map((user) => user.id),
-    },
-    mutations: {
-      setUsers(state, users) {
-        state.userData.users = users;
-      },
-    },
-    actions: {
-      // function to set token to local storage
-
-      async setToken({ commit }, token) {
-        try {
-          localStorage.setItem("token", token);
-          commit("setToken", token);
-        } catch (err) {
-          alert(err);
-        }
-      },
-
-      // function to fetch users
-
-      async fetchUsers({ commit }) {
-        try {
-          // const token = "28|rjB7LM94hlukKSlwp4EC7wZUCCtmT3vR4741ejLt9c1f2acb";
-          const token = localStorage.getItem("token");
-          const res = await axios.get(`${BASE_URL}/api/users`, {
-            // send token
-            headers: {
-              // send token
-              // Authorization: `Bearer ${localStorage.getItem("token")}`,
-              Authorization: `Bearer ${token}`,
-            },
-          });
-          commit("setUsers", res.data);
-          console.log(res.data);
-        } catch (err) {
-          alert(err);
-        }
-      },
-    },
-    modules: {},
   },
+
+  getters: {
+    getUsers: (state) => state.userData.users,
+    getHeaders: (state) => state.userData.headers,
+    getItemsPerPage: (state) => state.userData.itemsPerPage,
+    getTaskData: (state) => state.taskData,
+    getUserNames: (state) => state.userData.users.map((user) => user.name),
+  },
+  mutations: {
+    setUsers(state, users) {
+      state.userData.users = users;
+    },
+    setTasks(state, tasks) {
+      state.taskData.tasks = tasks;
+    },
+  },
+  actions: {
+    // function to set token to local storage
+
+    async setToken({ commit }, token) {
+      try {
+        localStorage.setItem("token", token);
+        commit("setToken", token);
+      } catch (err) {
+        alert(err);
+      }
+    },
+
+    // function to fetch users
+
+    async fetchUsers({ commit }) {
+      try {
+        // const token = "28|rjB7LM94hlukKSlwp4EC7wZUCCtmT3vR4741ejLt9c1f2acb";
+        const token = localStorage.getItem("token");
+        const res = await axios.get(`${BASE_URL}/api/users`, {
+          // send token
+          headers: {
+            // send token
+            // Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        commit("setUsers", res.data);
+        console.log(res.data);
+      } catch (err) {
+        alert(err);
+      }
+    },
+  },
+  modules: {},
 });

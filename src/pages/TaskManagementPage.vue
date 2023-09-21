@@ -174,7 +174,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["fetchTasks"]),
+    // ...mapActions(["fetchTasks"]),
 
     getColor(status) {
       if (status == "active") return "green";
@@ -225,9 +225,9 @@ export default {
     },
   },
 
-  mounted() {
-    // Calling the action to fetch tasks when the component is created
-    this.fetchTasks();
-  },
+  // mounted() {
+  //   // Calling the action to fetch tasks when the component is created
+  //   this.fetchTasks();
+  // },
 };
 </script>
