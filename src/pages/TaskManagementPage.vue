@@ -1,17 +1,15 @@
 <template>
-  <v-data-table
-    :headers="headers"
-    :items="tasks"
-    :sort-by="[{ key: 'status', order: 'asc' }]"
-    class="elevation-1"
-  >
+  <v-data-table :headers="headers" :items="tasks" class="elevation-1">
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>TASK MANAGEMENT</v-toolbar-title>
         <v-divider class="mx-4" inset vertical></v-divider>
         <v-spacer></v-spacer>
+
+        <!-- Add-Task Dialogue Box -->
         <v-dialog v-model="dialog" max-width="500px">
           <template v-slot:activator="{ props }">
+            <!-- Add-Task Button -->
             <v-btn
               prepend-icon="mdi-plus-circle"
               color="primary"
@@ -23,6 +21,8 @@
               Add Task
             </v-btn>
           </template>
+
+          <!-- Add Task Form -->
           <v-card>
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
@@ -73,6 +73,8 @@
             </v-card-actions>
           </v-card>
         </v-dialog>
+
+        <!-- Delete-Task Dialogue Box -->
         <v-dialog v-model="dialogDelete" max-width="500px">
           <v-card>
             <v-card-title class="text-h5"
@@ -95,6 +97,8 @@
         </v-dialog>
       </v-toolbar>
     </template>
+
+    <!-- Showing Edit & Delete Buttons in the Table -->
     <template v-slot:item.actions="{ item }">
       <v-icon
         size="small"
@@ -108,6 +112,8 @@
         mdi-delete
       </v-icon>
     </template>
+
+    <!-- Adding color to Status field -->
     <template v-slot:item.status="{ item }">
       <v-chip :color="getColor(item.columns.status)">
         {{ item.columns.status }}
@@ -117,7 +123,7 @@
 </template>
 
 <script>
-import { mapGetters } from "vuex";
+import { mapGetters, mapActions } from "vuex";
 
 export default {
   data: () => ({
@@ -145,13 +151,16 @@ export default {
       return this.editedIndex === -1 ? "Create Task" : "Edit Item";
     },
     headers() {
-      return this.getTaskData.headers; // Access headers from the store
+      // Accessing headers from store
+      return this.getTaskData.headers;
     },
     tasks() {
-      return this.getTaskData.tasks; // Access tasks from the store
+      // Accessing tasks from store
+      return this.getTaskData.tasks;
     },
     userNames() {
-      return this.getUserNames; // Access user names from the store
+      // Accessing usernames from store
+      return this.getUserNames;
     },
   },
 
@@ -165,6 +174,8 @@ export default {
   },
 
   methods: {
+    ...mapActions(["fetchTasks"]),
+
     getColor(status) {
       if (status == "active") return "green";
       else if (status == "pending") return "blue";
@@ -212,6 +223,11 @@ export default {
       }
       this.close();
     },
+  },
+
+  mounted() {
+    // Calling the action to fetch tasks when the component is created
+    this.fetchTasks();
   },
 };
 </script>

@@ -23,13 +23,7 @@
     </v-app-bar>
 
     <v-main>
-      <TaskManagement />
-      <!-- <UserManagement
-        :headers="headers"
-        :items="users"
-        :itemsPerPage="itemsPerPage"
-        item-value="name"
-      /> -->
+      <TaskManagementPage />
     </v-main>
   </v-app>
 </template>
@@ -50,8 +44,7 @@ const drawer = ref(null);
 </script>
 
 <script>
-import UserManagement from "@/components/User management/crmTable";
-import TaskManagement from "./TaskMangement.vue";
+import TaskManagementPage from "../../pages/TaskManagementPage.vue";
 
 export default {
   data: () => ({
@@ -84,7 +77,7 @@ export default {
     },
   },
   components: {
-    UserManagement,
+    TaskManagementPage,
   },
 };
 </script>

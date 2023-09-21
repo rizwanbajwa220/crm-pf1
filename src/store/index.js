@@ -95,6 +95,8 @@ export default createStore({
     getUserNames: (state) => state.userData.users.map((user) => user.id),
   },
   mutations: {},
+
   actions: {},
+
   modules: {},
 });
