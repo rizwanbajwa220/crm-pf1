@@ -5,13 +5,13 @@
  */
 
 // Styles
-import '@mdi/font/css/materialdesignicons.css'
-import 'vuetify/styles'
+import "@mdi/font/css/materialdesignicons.css";
+import "vuetify/styles";
 
 
 
 // Composables
-import { createVuetify } from 'vuetify'
+import { createVuetify } from "vuetify";
 import {
   VDataTable,
   VDataTableServer,
@@ -20,6 +20,11 @@ import {
 
 // https://vuetifyjs.com/en/introduction/why-vuetify/#feature-guides
 export default createVuetify({
+  components: {
+    VDataTable,
+    VDataTableServer,
+    VDataTableVirtual,
+  },
   theme: {
     components: {
       VDataTable,
@@ -30,11 +35,10 @@ export default createVuetify({
     themes: {
       light: {
         colors: {
-          primary: '#1867C0',
-          secondary: '#5CBBF6',
+          primary: "#1867C0",
+          secondary: "#5CBBF6",
         },
       },
     },
   },
-
-})
+});
