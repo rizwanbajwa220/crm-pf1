@@ -24,19 +24,21 @@
 
     <!-- Right Column: Permissions -->
     <v-col cols="12" md="9">
-      <v-row class="pt-1" density="compact">
-        <v-col cols="9" md="7" density="compact">
-          <h3 class="pt-5">Permissions</h3></v-col
-        >
-        <!-- on checking the select all all the checkboxes should be selected -->
-        <v-col
-          ><v-checkbox
+      <div class="d-flex justify-space-between pt-1">
+        <h3 class="">Permissions</h3>
+
+        <div class="d-flex align-center justify-center">
+          <v-checkbox
+            color="primary"
             @click="selectAllPermissions = !selectAllPermissions"
             label="Select All"
-          ></v-checkbox
-        ></v-col>
-        <v-col><v-checkbox label="Save"></v-checkbox></v-col>
-      </v-row>
+            density="compact"
+            class="me-5"
+          ></v-checkbox>
+          <span @click="SavePermission" class="mb-7">Save</span>
+        </div>
+      </div>
+
       <v-row>
         <!-- First Permissions Column -->
         <v-col cols="12" md="6" density="compact">
@@ -101,6 +103,11 @@ export default {
       selectedPermissions: [],
       selectAllPermissions: false, // New data property
     };
+  },
+  methods: {
+    SavePermission() {
+      console.log("Selected Permissions: ", this.selectedPermissions);
+    },
   },
 };
 </script>
