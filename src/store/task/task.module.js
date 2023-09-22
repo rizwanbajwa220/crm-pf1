@@ -1,5 +1,6 @@
 import ApiServices from "@/services/Api";
 
+// State
 const state = {
   taskData: {
     itemsPerPage: 5,
@@ -30,15 +31,16 @@ const state = {
   },
 };
 
+// Getters
 const getters = {
   getTaskData: (state) => state.taskData,
   // Add getUserData here to fetch User Ids
-  //   getUserNames: (state) => state.userData.users.map((user) => user.id)
+  // getUserNames: (state) => state.userData.users.map((user) => user.id)
 };
 
+// Mutations
 const mutations = {
   setTasks(state, tasks) {
-    console.log("Received tasks data:", tasks); // Add this line for debugging
     state.taskData.tasks = tasks;
   },
   deleteTask(state, taskId) {
@@ -46,9 +48,25 @@ const mutations = {
       (task) => task.id !== taskId
     );
   },
+  createTask(state, newTask) {
+    state.taskData.tasks.push(newTask);
+  },
+
+  updateTask(state, updatedTaskData) {
+    const index = state.taskData.tasks.findIndex(
+      (task) => task.id === updatedTaskData.id
+    );
+
+    if (index !== -1) {
+      // Update the task in the tasks array
+      state.taskData.tasks[index] = updatedTaskData;
+    }
+  },
 };
 
+// Actions
 const actions = {
+  // Fetch Tasks Action
   async fetchTasks({ commit }) {
     try {
       const data = await ApiServices.getAllTasks();
@@ -57,9 +75,10 @@ const actions = {
       throw new Error(error);
     }
   },
+
+  // Delete Task Action
   async deleteTask({ commit }, id) {
     try {
-      // Send a request to the backend to delete the task by taskId
       await ApiServices.deleteTask(id);
 
       // If the delete request was successful, commit the mutation to delete the task from the store
@@ -69,10 +88,13 @@ const actions = {
       throw new Error(error);
     }
   },
-  async createTask({ commit }, taskData) {
+
+  // Create Task Action
+  async createTask({ commit }, editedTaskData) {
+    console.log("action", editedTaskData);
     try {
       // Send a request to create a new task
-      const response = await ApiServices.createTask(taskData);
+      const response = await ApiServices.createTask(editedTaskData);
 
       // If the create request was successful, commit the mutation to add the new task to the store
       commit("createTask", response.data);
@@ -84,18 +106,18 @@ const actions = {
     }
   },
 
-  // // Get All Tasks Request
-  // async getTasks({ commit }) {
-  //   try {
-  //     const response = await ApiServices.getAllTasks();
-  //     const responseData = await response.json();
-  //     console.log(responseData.data);
+  // Update Task Action
+  async updateTask({ commit }, { taskData }) {
+    try {
+      const updatedTask = await ApiServices.updateTask(taskData);
 
-  //     commit("setTasks", responseData.data);
-  //   } catch (error) {
-  //     console.error("Error fetching tasks:", error);
-  //   }
-  // },
+      commit("updateTask", updatedTask);
+    } catch (error) {
+      console.error("Error updating department:", error);
+
+      throw new Error(error);
+    }
+  },
 };
 
 export default {

@@ -1,14 +1,19 @@
 import axios from "axios";
 
-const BASE_URL = "http://10.0.10.34:3500/api";
+const BASE_URL = "http://10.0.10.230:3500/api";
 
 const ApiServices = {
+  // TASK-MANAGEMENT APIs
+
+  // Get All Tasks
   async getAllTasks() {
-    const token = "39|vipHOT3AnURTMSGxnd0dTqEssPiFRDkD9zxlzJ0z5164e72c";
+    // Getting access token
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.get(`${BASE_URL}/tasks`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the headers
+          // Include the token in the headers
+          Authorization: `Bearer ${token}`,
         },
       });
       console.log(response.data);
@@ -17,8 +22,10 @@ const ApiServices = {
       console.error("Error fetching tasks:", error);
     }
   },
+
+  //   Delete a Task
   async deleteTask(id) {
-    const token = "39|vipHOT3AnURTMSGxnd0dTqEssPiFRDkD9zxlzJ0z5164e72c";
+    const token = localStorage.getItem("token");
     try {
       const response = await axios.delete(`${BASE_URL}/tasks/${id}`, {
         headers: {
@@ -31,18 +38,54 @@ const ApiServices = {
       throw new Error(error);
     }
   },
+
+  //   Create a Task
   async createTask(taskData) {
-    const token = "39|vipHOT3AnURTMSGxnd0dTqEssPiFRDkD9zxlzJ0z5164e72c"; // Replace with your authentication token
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.post(`${BASE_URL}/tasks`, {
-        body: taskData,
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        `${BASE_URL}/tasks`,
+        {
+          name: taskData.name, // Use taskData.name instead of "taskData.name"
+          status: taskData.status,
+          comments: taskData.comments,
+          user_id: taskData.user_id,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data;
     } catch (error) {
-      console.error("Error creating task:", error);
+      throw new Error(error);
+    }
+  },
+
+  //   Update a Task
+  async updateTask(editedTaskData) {
+    const token = localStorage.getItem("token");
+    console.log("editedTaskData", editedTaskData);
+    const id = editedTaskData.id;
+
+    try {
+      const response = await axios.put(
+        `${BASE_URL}/tasks/${id}`, // Include the task ID in the URL
+        {
+          name: editedTaskData.name,
+          status: editedTaskData.status,
+          comments: editedTaskData.comments,
+          user_id: editedTaskData.user_id,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data.data;
+    } catch (error) {
       throw new Error(error);
     }
   },
@@ -52,10 +95,12 @@ const ApiServices = {
     try {
       const response = await axios.get(`${BASE_URL}/departments`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the headers
+          // Include the token in the headers
+          Authorization: `Bearer ${token}`,
         },
       });
-      return response.data.data; // Return the response data
+      // Return the response data
+      return response.data.data;
     } catch (error) {
       throw new Error(error);
     }

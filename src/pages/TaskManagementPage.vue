@@ -130,7 +130,7 @@ export default {
     dialog: false,
     dialogDelete: false,
     statusOptions: ["Active", "Rejected", "Pending"],
-    userNames: ["Haris", "Kashif", "Usman"],
+    userNames: ["1", "2", "3", "4"],
     editedIndex: -1,
     editedItem: {
       name: "",
@@ -162,7 +162,7 @@ export default {
       return this.getTaskData.tasks;
     },
     // userNames() {
-    //   // Accessing usernames from store
+    //   Accessing usernames from store
     //   return this.getUserNames;
     // },
   },
@@ -177,7 +177,7 @@ export default {
   },
 
   methods: {
-    ...mapActions(["fetchTasks", "deleteTask", "createTask"]),
+    ...mapActions(["fetchTasks", "deleteTask", "createTask", "updateTask"]),
 
     getColor(status) {
       if (status == "Active") return "green";
@@ -200,7 +200,7 @@ export default {
     async deleteItemConfirm() {
       try {
         // Call the deleteTask action with the taskId of the item to delete
-        await this.$store.dispatch("deleteTask", this.editedItem.id);
+        await this.deleteTask(this.editedItem.id);
         this.closeDelete();
       } catch (error) {
         console.error("Error deleting task:", error);
@@ -227,13 +227,23 @@ export default {
       try {
         if (this.editedIndex > -1) {
           // Edit existing task (not shown here, use the existing logic)
+          const editedTaskData = {
+            id: this.editedItem.id,
+            name: this.editedItem.name,
+            status: this.editedItem.status,
+            comments: this.editedItem.comments,
+            user_id: this.editedItem.user_id,
+          };
+          console.log(editedTaskData);
+          await this.updateTask({ taskData: editedTaskData });
+          this.close();
         } else {
           // Create a new task
           const newTaskData = {
             name: this.editedItem.name,
             status: this.editedItem.status,
-            user_id: this.editedItem.user_id,
             comments: this.editedItem.comments,
+            user_id: this.editedItem.user_id,
           };
 
           // Call the createTask action to create a new task
