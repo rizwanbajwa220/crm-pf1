@@ -175,7 +175,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['fetchDepartments', 'deleteDepartment']),
+        ...mapActions(['fetchDepartments', 'deleteDepartment', 'updateDepartment', 'createDepartment']),
 
         formatDate(dateString) {
             const options = {
@@ -188,6 +188,7 @@ export default {
             };
             return new Date(dateString).toLocaleDateString(undefined, options);
         },
+
         editItem(item) {
             this.editedIndex = this.allDepartments.indexOf(item);
             this.editedItem = Object.assign({}, item);
@@ -229,14 +230,26 @@ export default {
             });
         },
 
-        save() {
-            if (this.editedIndex > -1) {
-                Object.assign(this.allDepartments[this.editedIndex], this.editedItem);
-            } else {
-                this.allDepartments.push(this.editedItem);
-            }
-            this.close();
-        },
+        
+
+        async save() {
+      try {
+        if (this.editedIndex > -1) {
+          await this.updateDepartment({
+        id: this.editedItem.id, 
+        name: this.editedItem.name, 
+      });
+        } else {
+         
+          await this.createDepartment(this.editedItem.name); 
+        }
+        this.close();
+      } catch (error) {
+        console.error("Error updating department:", error);
+      }
+    },
+
+
     },
     mounted() {
         this.fetchDepartments()
