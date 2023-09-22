@@ -1,12 +1,7 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
-      <v-img
-        src="@/assets/logo.svg"
-        class="ml-7 my-3"
-        width="142px"
-        height="45px"
-      ></v-img>
+      <v-img src="@/assets/logo.svg" class="ml-7 my-3" width="142px" height="45px"></v-img>
     </v-navigation-drawer>
 
     <v-app-bar elevation="1">
