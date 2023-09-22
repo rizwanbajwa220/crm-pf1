@@ -37,7 +37,7 @@
 
                     <v-text-field :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
                         :type="visible ? 'text' : 'password'" density="compact" placeholder="Enter your confirm password"
-                        variant="outlined" @click:append-inner="visible = !visible" v-model="confirmPassword"
+                        variant="outlined" @click:append-inner="visible = !visible" v-model="confirm_password"
                         :rules="cpasswordRules"></v-text-field>
 
                     <!-- For displaying error message -->
@@ -47,7 +47,7 @@
                         Sign Up
                     </v-btn>
 
-                    <div class="justify-center d-flex mt-2">Already Registered?<router-link to="/login"
+                    <div class="justify-center d-flex mt-2">Already Registered?<router-link to="/"
                             class="text-blue ml-1">Login</router-link></div>
 
                 </v-form>
@@ -57,6 +57,7 @@
 </template>
   
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
     data() {
         return {
@@ -64,7 +65,7 @@ export default {
             name: '',
             email: '',
             password: '',
-            confirmPassword: '',
+            confirm_password: '',
             error: '',
             nameRules: [
                 value => {
@@ -96,18 +97,25 @@ export default {
             ],
         };
     },
+    computed:{
+        ...mapGetters(['setRegisterUser'])
+    },
     methods: {
-        signup() {
+        ...mapActions(['registerUser']),
+
+        async signup() {
+            await this.registerUser({ name:this.name, email: this.email, password: this.password, confirm_password:this.confirm_password });
+
             const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
             if (!emailRegex.test(this.email)) {
                 this.error = "Invalid email format";
                 return; // Exit the method to prevent further execution
             }
-            if (this.password !== this.confirmPassword) {
+            if (this.password !== this.confirm_password) {
                 this.error = "Passwords do not match";
                 return; // Exit the method to prevent further execution
             }
-            if (this.name == '' || this.email == '' || this.password == '' || this.confirmPassword == '') {
+            if (this.name == '' || this.email == '' || this.password == '' || this.confirm_password == '') {
                 this.error = "Fill all fields";
                 return; // Exit the method to prevent further execution
             }
@@ -116,9 +124,9 @@ export default {
                 name: this.name,
                 email: this.email,
                 password: this.password,
-                confirmPassword: this.confirmPassword,
+                confirm_password: this.confirm_password,
             };
-            this.$router.push({ name: 'login' });
+            this.$router.push({ path: '/' });
             console.log('Form Data:', formData);
             this.error = '';
         },

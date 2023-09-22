@@ -1,6 +1,7 @@
 import { createStore } from "vuex";
 import department from "./department/department.module";
 import login from "./auth/login.module.js";
+import register from "./auth/register.module.js";
 import userManagement from "@/services/UserDepartment.module.js";
 
 import task from "./task/task.module";
@@ -12,6 +13,7 @@ export default createStore({
     task,
     department,
     login,
+    register,
     u: userManagement,
   },
 });

@@ -101,15 +101,31 @@ const ApiServices = {
       alert(err);
     }
   },
-  register: (name, email, password, cpassword) => {
-    return axios.post(`${BASE_URL}/users/register`, {
-      name: name,
-      email: email,
-      password: password,
-      cpassword: cpassword,
-    });
+  async register(name, email, password, confirm_password) {
+    try {
+      const resp = await axios.post(`${BASE_URL}/users/register`, {
+        name: name,
+        email: email,
+        password: password,
+        confirm_password: confirm_password,
+      });
+      return resp.data;
+    } catch (err) {
+      alert(err);
+    }
   },
 
+  async login(email, password) {
+    try {
+      const resp = await axios.post(`${BASE_URL}/users/login`, {
+        email: email,
+        password: password,
+      });
+      return resp.data;
+    } catch (err) {
+      alert(err);
+    }
+  },
   async fetchUsers() {
     try {
       const token = localStorage.getItem("token");
@@ -144,6 +160,19 @@ const ApiServices = {
   },
 
   async getDepartments() {
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.get(`${BASE_URL}/departments`, {
+        headers: {
+          Authorization: `Bearer ${token}`, // Include the token in the headers
+        },
+      });
+      return response.data.data.data;
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  async deleteDepartment(id) {
     const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
     try {
       const response = await axios.get(`${BASE_URL}/departments`, {
@@ -202,27 +231,35 @@ const ApiServices = {
   },
 
   async deleteDepartment(id) {
-    const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
+    const token = localStorage.getItem("token");
     try {
-      const response = await axios.get(`${BASE_URL}/departments/${id}`, {
+      const response = await axios.delete(`${BASE_URL}/departments/${id}`, {
         headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the headers
+          Authorization: `Bearer ${token}`,
         },
       });
-      return response.data.data; // Return the response data
+      return response.data.data;
     } catch (error) {
       throw new Error(error);
     }
   },
 
-  async updateDepartment(id) {
-    const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
+  async updateDepartment(id, name) {
+    const token = localStorage.getItem("token");
+    console.log("id", id);
     try {
-      const response = await axios.get(`${BASE_URL}/departments/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      const response = await axios.put(
+        `${BASE_URL}/departments/${id}`,
+        {
+          // id:id,
+          name: name,
         },
-      });
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       return response.data.data;
     } catch (error) {
       throw new Error(error);
@@ -248,25 +285,26 @@ const ApiServices = {
       cpassword: cpassword,
     });
   },
-  // register: async (data) => {
-  //     return await axios.post(`${BASE_URL}/users/register`, data);
-  // },
 
-  async fetchUsers() {
+  async createDepartment(name) {
+    const token = localStorage.getItem("token");
+
     try {
-      const token = "26|4O4xWJw1qNoFq8bW5e30TIFeLK2MG6htj1SyZJSo1dafd5bb";
-      // const token = localStorage.getItem("token");
-      const res = await axios.get(`${BASE_URL}/users`, {
-        // send token
-        headers: {
-          // send token
-          // Authorization: `Bearer ${localStorage.getItem("token")}`,
-          Authorization: `Bearer ${token}`,
+      const response = await axios.post(
+        `${BASE_URL}/departments`,
+        {
+          name,
         },
-      });
-      return res.data;
-    } catch (err) {
-      alert(err);
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      // console.log(response.data.data);
+      return response.data.data;
+    } catch (error) {
+      throw new Error(error);
     }
   },
 };
