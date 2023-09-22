@@ -3,5 +3,5 @@
 </template>
 
 <script setup>
-import Tabs from "@/components/common/Tabs";
+import Tabs from "@/pages/User management/Tabs.vue";
 </script>
