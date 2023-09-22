@@ -1,12 +1,8 @@
 import axios from "axios";
 
-const BASE_URL = "http://10.0.10.34:3500/api";
+const BASE_URL = "http://10.0.10.230:3500/api";
 
 const ApiServices = {
-    // login: async (data) => {
-    //     return await axios.post(`${BASE_URL}/users/login`, data);
-    // },
-    //  
     async login (email, password) {
         try {
             const resp = await axios.post(`${BASE_URL}/users/login`, {
@@ -15,22 +11,24 @@ const ApiServices = {
             });
             return resp.data;
 
+        } catch (err){
+            alert(err);
+        }
+    },
+    async register (name,email, password,confirm_password) {
+        try {
+            const resp = await axios.post(`${BASE_URL}/users/register`, {
+                name: name,
+                email: email,
+                password: password,
+                confirm_password: confirm_password,
+            });
+            return resp.data;
 
         } catch (err){
             alert(err);
         }
     },
-    register: (name, email, password, cpassword) => {
-        return axios.post(`${BASE_URL}/users/register`, {
-            name: name,
-            email: email,
-            password: password,
-            cpassword: cpassword,
-        });
-    },
-    // register: async (data) => {
-    //     return await axios.post(`${BASE_URL}/users/register`, data);
-    // },
 
     async fetchUsers() {
         try {

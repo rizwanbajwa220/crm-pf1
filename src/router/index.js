@@ -1,6 +1,11 @@
 // Composables
 import { createRouter, createWebHistory } from "vue-router";
 
+const isAuthenticated = () => {
+  //checking if token exist in local storage
+  return localStorage.getItem("token") !== null; 
+};
+
 const routes = [
   {
     path: "/",
@@ -15,8 +20,24 @@ const routes = [
     ],
   },
   {
+    path: '/signup',
+    component: ()=>import("../views/SignUp.vue"),
+    name: 'signup'
+  },
+  {
     path: "/admin-dashboard",
     component: () => import("../components/common/NavBar.vue"),
+    beforeEnter: (to, from, next) => {
+      // Check if the user is authenticated
+      if (isAuthenticated()) {
+        // User is authenticated, allow access to the admin-dashboard
+        next();
+      } else {
+        // User is not authenticated, redirect to the login page
+        alert("You need to be logged in to access the admin dashboard.");
+        next({ path: "/" });
+      }
+    },
     children: [
       {
         path: "",

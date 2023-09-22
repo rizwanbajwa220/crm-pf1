@@ -1,38 +1,39 @@
-import ApiServices from '../../services/Api'; // Replace with the actual path
+import ApiServices from '../../services/Api.js'; // Replace with the actual path
+import router from '../../router/index.js';
+
 
 const state = {
-    signupCredientials: null,
-    // Your state properties here
-};
-
-const mutations = {
-    registerUser(state, users) {
-        state.userData.signupCredientials = users;
+    registerCredentials: null,
+  };
+  
+  const mutations = {
+    SET_REGISTER_CREDENTIALS(state, data) {
+        // localStorage.setItem('token', data.token);
+      state.registerCredentials = data;
     },
-    // Your mutations here
-};
+  };
+  
+  const actions = {
+    async registerUser({ commit }, { name,email, password,confirm_password }) {
+      try {
+        const response = await ApiServices.register(name, email, password, confirm_password);
+        commit('SET_REGISTER_CREDENTIALS', response);
+        router.push({ path: '/' });
 
-const actions = {
-    async registerUser({ commit }, { name,email, password,cpassword }) {
-        try {
-            const response = await ApiServices.register(name,email, password,cpassword);
-            // Handle a successful login response here
-            console.log("register successful", response.data);
-        } catch (error) {
-            // Handle login error
-            console.error("register failed", error);
-        }
+      } catch (error) {
+        console.error("signup failed", error);
+      }
     },
-};
-
-const getters = {
-    // Your getters here
-    registerUser: (state) => state.userData.signupCredientials,
-};
-
-export default {
+  };
+  
+  const getters = {
+    getRegisterCredentials: (state) => state.registerCredentials,
+  };
+  
+  export default {
     state,
     mutations,
     actions,
     getters,
-};
+  };
+  
