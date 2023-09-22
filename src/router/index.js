@@ -1,9 +1,8 @@
-// Composables
 import { createRouter, createWebHistory } from "vue-router";
 
 const isAuthenticated = () => {
   //checking if token exist in local storage
-  return localStorage.getItem("token") !== null; 
+  return localStorage.getItem("token") !== null;
 };
 
 const routes = [
@@ -21,7 +20,7 @@ const routes = [
   },
   {
     path: '/signup',
-    component: ()=>import("../views/SignUp.vue"),
+    component: () => import("../views/SignUp.vue"),
     name: 'signup'
   },
   {
@@ -40,21 +39,17 @@ const routes = [
     },
     children: [
       {
-        path: "",
+        path: "", // This will match "/admin-dashboard" by default
         component: () => import("../pages/User management/UserManagement.vue"),
       },
       {
-        path: "/task-managment",
+        path: "/task-management", // This will match "/admin-dashboard/task-management"
         component: () => import("@/pages/TaskManagementPage.vue"),
       },
       {
-        path: "/department-managment",
+        path: "/department-management", // You can define other nested routes as needed
         component: () => import("@/pages/Department.vue"),
       },
-      // {
-      //   path: "/team",
-      //   component: () => import(""),
-      // },
     ],
   },
 ];

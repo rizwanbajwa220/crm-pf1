@@ -1,6 +1,5 @@
-import ApiServices from '../../services/Api.js'; // Replace with the actual path
-import router from '../../router/index.js';
-
+import ApiServices from "../../services/Api.js"; // Replace with the actual path
+import router from "../../router/index.js";
 
 const state = {
   loginCredentials: null,
@@ -45,4 +44,3 @@ export default {
   actions,
   getters,
 };
-
