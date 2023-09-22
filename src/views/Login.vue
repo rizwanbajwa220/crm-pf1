@@ -46,11 +46,14 @@
 </template>
   
 <script>
+import { mapGetters, mapActions } from 'vuex';
 export default {
     data: () => ({
         error: '',
         visible: false,
         email: '',
+        password: '',
+
         emailRules: [
             value => {
                 if (value?.length > 1) return true
@@ -58,7 +61,6 @@ export default {
                 return 'Email can not be empty.'
             },
         ],
-        password: '',
         passwordRules: [
             value => {
                 if (value?.length > 1) return true
@@ -67,8 +69,17 @@ export default {
             },
         ],
     }),
+
+    computed:{
+        ...mapGetters(['setLoginUser'])
+    },
+   
     methods: {
-        login() {
+        ...mapActions(['loginUser']),
+
+        async login() {
+            await this.loginUser({ email: this.email, password: this.password });
+            
             const emailRegex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
             if (!emailRegex.test(this.email)) {
                 this.error = "Invalid email format";
@@ -83,6 +94,8 @@ export default {
                 password: this.password,
             };
             this.error = '';
+
+            
             console.log('Form Data:', formData);
         },
     },
