@@ -1,12 +1,17 @@
 <template>
   <v-app id="inspire">
     <v-navigation-drawer v-model="drawer">
-      <v-img src="@/assets/logo.svg" class="ml-7 my-3" width="142px" height="45px"></v-img>
+      <v-img
+        src="@/assets/logo.svg"
+        class="ml-7 my-3"
+        width="142px"
+        height="45px"
+      ></v-img>
+      <SideBar />
     </v-navigation-drawer>
 
     <v-app-bar elevation="1">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-
       <v-app-bar-title>Application</v-app-bar-title>
     </v-app-bar>
 
@@ -17,7 +22,8 @@
 </template>
 
 <script setup>
-import Chatbox from "../ChatBox.vue"
+import Chatbox from "../ChatBox.vue";
+import SideBar from "./SideBar.vue";
 </script>
 
 <script>
@@ -33,7 +39,7 @@ export default {
     },
   },
   components: {
-    Chatbox
+    Chatbox,
   },
 };
 </script>

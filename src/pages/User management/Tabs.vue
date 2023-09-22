@@ -29,40 +29,5 @@ export default {
     UserManagement,
     RolesTable,
   },
-  // computed: {
-  //   ...mapGetters(["getUsers", "getItemsPerPage", "getHeaders"]),
-  // },
-  // methods: {
-  //   ...mapActions(["fetchUsers"]),
-  // },
-  // mounted() {
-  //   this.fetchUsers();
-  // },
 };
 </script>
-
-<!-- <script setup>
-import UserManagement from "@/components/common/crmTable";
-import RolesTable from "@/components/RoleManagement/RolesTable";
-import { computed, onMounted, ref } from "vue";
-import { useStore } from "vuex";
-
-//accessing store
-const store = useStore();
-
-//getting data from store
-const users = computed(() => store.state.userData.users);
-console.log("User data: ", users);
-
-const headers = computed(() => store.getters.getHeaders);
-const getUsers = computed(() => store.getters.getUsers);
-const getItemsPerPage = computed(() => store.getters.getItemsPerPage);
-
-onMounted(() => {
-  store.dispatch("fetchUsers");
-});
-
-//check if the data is fetched
-console.log("Headers: ", headers);
-console.log("Users data: ", getUsers);
-</script> -->

@@ -48,6 +48,19 @@
                       v-model="editedItem.name"
                       label="Name"
                     ></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.email"
+                      label="Email"
+                      :readonly="readonlyEmail"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.password"
+                      label="Password"
+                    ></v-text-field>
+                    <v-text-field
+                      v-model="editedItem.confirm_password"
+                      label="Confirm Password"
+                    ></v-text-field>
                   </v-col>
 
                   <v-col cols="12" sm="6" md="4"> </v-col>
@@ -62,7 +75,7 @@
                 Cancel
               </v-btn>
 
-              <v-btn color="blue-darken-1" variant="text" @click="save">
+              <v-btn color="blue-darken-1" variant="text" @click="save()">
                 Save
               </v-btn>
             </v-card-actions>
@@ -163,6 +176,7 @@ export default {
         },
       ],
     },
+    readonlyEmail: false, // Add this property
   }),
 
   computed: {
@@ -173,6 +187,7 @@ export default {
       "getIsLoading",
       "getError",
     ]),
+
     headers() {
       return this.getHeaders;
     },
@@ -193,27 +208,13 @@ export default {
   },
 
   methods: {
-    ...mapActions(["fetchUsers"]),
-
-    // formatDate(dateString) {
-    //   const options = {
-    //     year: "numeric",
-
-    //     month: "long",
-
-    //     day: "numeric",
-
-    //     hour: "2-digit",
-
-    //     minute: "2-digit",
-
-    //     second: "2-digit",
-    //   };
-
-    //   return new Date(dateString).toLocaleDateString(undefined, options);
-    // },
+    ...mapActions(["fetchUsers", "updateUser"]),
 
     editItem(item) {
+      // use the updateuser action to update the user
+
+      this.readonlyEmail = true; // Set email field as readonly
+
       this.editedIndex = this.getUsers.indexOf(item);
 
       this.editedItem = Object.assign({}, item);
@@ -236,6 +237,7 @@ export default {
     },
 
     close() {
+      this.readonlyEmail = false;
       this.dialog = false;
 
       this.$nextTick(() => {
@@ -257,6 +259,15 @@ export default {
 
     save() {
       if (this.editedIndex > -1) {
+        const payload = {
+          id: this.editedItem.id,
+          name: this.editedItem.name,
+          email: this.editedItem.email,
+          password: this.editedItem.password,
+          confirm_password: this.editedItem.confirm_password,
+        };
+        console.log(payload);
+        this.updateUser(payload);
         Object.assign(this.getUsers[this.editedIndex], this.editedItem);
       } else {
         this.getUsers.push(this.editedItem);
@@ -271,54 +282,3 @@ export default {
   },
 };
 </script>
-
-<!-- <template>
-  <AddButton />
-  <v-data-table
-    v-bind:items-per-page="itemsPerPage"
-    :headers="getHeaders"
-    :items="getUsers"
-    item-value="item-value"
-    :items-per-page="getItemsPerPage"
-    class="elevation-1"
-  ></v-data-table>
-</template>
-
-<script>
-import AddButton from "@/pages/User management/AddButon";
-export default {
-  name: "UserManagement",
-  props: {
-    getHeaders: {
-      type: Array,
-      required: true,
-    },
-    getUsers: {
-      type: Array,
-      required: true,
-    },
-    getItemsPerPage: {
-      type: Number,
-      default: 5,
-    },
-    itemValue: {
-      type: String,
-      default: "name",
-    },
-  },
-  data() {
-    return {
-      dialog: false,
-    };
-  },
-  components: {
-    AddButton,
-  },
-};
-</script>
-
-<style scoped>
-.dialog-box {
-  margin: 1vw 1vw 0 0;
-}
-</style> -->
