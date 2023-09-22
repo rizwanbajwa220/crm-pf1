@@ -1,41 +1,27 @@
 import axios from "axios";
 
-const BASE_URL = "http://10.0.10.34:3500/api";
+const BASE_URL = "http://10.0.10.230:3500/api";
 
 const ApiServices = {
 
     async getDepartments() {
-        const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
+        const token = localStorage.getItem('token');;
         try {
           const response = await axios.get(`${BASE_URL}/departments`,{
             headers: {
-                Authorization: `Bearer ${token}`, // Include the token in the headers
+                Authorization: `Bearer ${token}`, 
               },
           });
-          return response.data.data; // Return the response data
+          return response.data.data.data; 
         } catch (error) {
           throw new Error(error);
         }
       },
 
       async deleteDepartment(id){
-        const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
+        const token = localStorage.getItem('token');;
         try {
-          const response = await axios.get(`${BASE_URL}/departments/${id}`,{
-            headers: {
-                Authorization: `Bearer ${token}`, // Include the token in the headers
-              },
-          });
-          return response.data.data; // Return the response data
-        } catch (error) {
-          throw new Error(error);
-        } 
-      },
-
-      async updateDepartment(id){
-        const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
-        try {
-          const response = await axios.get(`${BASE_URL}/departments/${id}`,{
+          const response = await axios.delete(`${BASE_URL}/departments/${id}`,{
             headers: {
                 Authorization: `Bearer ${token}`, 
               },
@@ -44,6 +30,47 @@ const ApiServices = {
         } catch (error) {
           throw new Error(error);
         } 
+      },
+
+      async updateDepartment(id,name) {
+        const token = localStorage.getItem('token');
+        console.log("id",id)
+        try {
+        const response = await axios.put(`${BASE_URL}/departments/${id}`, {
+          // id:id,  
+          name : name
+          }, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+        //  console.log("api",response.data.data)
+          return response.data; 
+        } catch (error) {
+          throw new Error(error);
+        }
+      },
+      
+      async createDepartment(name) {
+        const token = localStorage.getItem('token'); 
+    
+        try {
+          const response = await axios.post(
+            `${BASE_URL}/departments`,
+            {
+              name 
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${token}`, 
+              },
+            }
+          );
+          // console.log(response.data.data);
+          return response.data.data; 
+        } catch (error) {
+          throw new Error(error);
+        }
       },
 
       async login(email, password) {
