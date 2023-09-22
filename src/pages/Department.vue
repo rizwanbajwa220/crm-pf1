@@ -1,5 +1,4 @@
 <template>
-    {{ console.log('deeee',allDepartments) }}
 <v-data-table :headers="allHeaders" :items="allDepartments" :sort-by="[{ key: 'description', order: 'asc' }]" class="elevation-1">
 
     <template v-slot:top>
@@ -115,7 +114,6 @@
 </v-data-table>
 </template>
 
-    
 <script>
 import {
     mapGetters,
@@ -129,6 +127,7 @@ export default {
         dialogDelete: false,
         editedIndex: -1,
         editedItem: {
+            id: "",
             name: "",
             createdAt: "",
             actions: [{
@@ -142,6 +141,7 @@ export default {
             ],
         },
         defaultItem: {
+            id: "",
             name: "",
             createdAt: "",
             actions: [{
@@ -158,16 +158,11 @@ export default {
 
     computed: {
         ...mapGetters(["allDepartments", "allHeaders"]),
-        
+
         formTitle() {
             return this.editedIndex === -1 ? "Create Department" : "Edit Department";
         },
-        headers() {
-            return this.$store.state.departmentData.headers;
-        },
-        departments() {
-            return this.departments = this.allDepartments
-        },
+
     },
 
     watch: {
@@ -180,7 +175,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['fetchDepartments']),
+        ...mapActions(['fetchDepartments', 'deleteDepartment']),
 
         formatDate(dateString) {
             const options = {
@@ -194,20 +189,28 @@ export default {
             return new Date(dateString).toLocaleDateString(undefined, options);
         },
         editItem(item) {
-            this.editedIndex = this.departments.indexOf(item);
+            this.editedIndex = this.allDepartments.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
         },
 
         deleteItem(item) {
-            this.editedIndex = this.departments.indexOf(item);
+            this.editedIndex = this.allDepartments.indexOf(item);
             this.editedItem = Object.assign({}, item);
             this.dialogDelete = true;
         },
 
-        deleteItemConfirm() {
-            this.departments.splice(this.editedIndex, 1);
-            this.closeDelete();
+        async deleteItemConfirm() {
+            try {
+                await this.$store.dispatch("deleteDepartment", this.editedItem.id);
+
+                this.closeDelete();
+
+            } catch (error) {
+
+                console.error("Error deleting task:", error);
+
+            }
         },
 
         close() {
@@ -228,14 +231,14 @@ export default {
 
         save() {
             if (this.editedIndex > -1) {
-                Object.assign(this.departments[this.editedIndex], this.editedItem);
+                Object.assign(this.allDepartments[this.editedIndex], this.editedItem);
             } else {
-                this.departments.push(this.editedItem);
+                this.allDepartments.push(this.editedItem);
             }
             this.close();
         },
     },
-    mounted(){
+    mounted() {
         this.fetchDepartments()
     },
 

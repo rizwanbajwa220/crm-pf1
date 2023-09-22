@@ -1,53 +1,83 @@
-// Composables
 import { createRouter, createWebHistory } from "vue-router";
-import UpdateModal from "@/components/updateRoles/UpdateModal.vue";
-import RolesTable from "@/components/RoleManagement/RolesTable.vue";
-import UserManagement from "@/pages/User management/UserManagement";
-import Login from '@/views/Login.vue'
-import SignUp from '@/views/SignUp.vue'
+
 
 
 const routes = [
+
   {
+
     path: "/",
+
     component: () => import("@/layouts/default/Default.vue"),
+
     children: [
+
       {
+
         path: "",
+
         name: "Home",
+
         component: () =>
+
           import(/* webpackChunkName: "home" */ "@/views/Login.vue"),
+
       },
+
     ],
+
   },
+
   {
+
     path: "/admin-dashboard",
+
     component: () => import("../components/common/NavBar.vue"),
+
     children: [
+
       {
-        path: "",
+
+        path: "", // This will match "/admin-dashboard" by default
+
         component: () => import("../pages/User management/UserManagement.vue"),
+
       },
+
       {
-        path: "/task-managment",
+
+        path: "/task-management", // This will match "/admin-dashboard/task-management"
+
         component: () => import("@/pages/TaskManagementPage.vue"),
+
       },
+
       {
-        path: "/department-managment",
+
+        path: "/department-management", // You can define other nested routes as needed
+
         component: () => import("@/pages/Department.vue"),
+
       },
-      {
-        path: "/user-management",
-        name: "user-management",
-        component: UserManagement,
-      },
+
+      // ...
+
     ],
+
   },
+
 ];
 
+
+
 const router = createRouter({
+
   history: createWebHistory(process.env.BASE_URL),
+
   routes,
+
 });
+
+
 
 export default router;
