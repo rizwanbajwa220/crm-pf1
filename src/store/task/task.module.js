@@ -1,4 +1,4 @@
-import Api from "@/services/Api";
+import ApiServices from "@/services/Api";
 
 const state = {
   taskData: {
@@ -26,15 +26,7 @@ const state = {
       },
       { title: "Actions", align: "center", sortable: false, key: "actions" },
     ],
-    tasks: [
-      {
-        name: "Task 1",
-        status: "active",
-        user_id: 6,
-        comments: "This is a sample task",
-        created_at: "2023-09-18T11:23:42.000000Z",
-      },
-    ],
+    tasks: [],
   },
 };
 
@@ -46,23 +38,64 @@ const getters = {
 
 const mutations = {
   setTasks(state, tasks) {
+    console.log("Received tasks data:", tasks); // Add this line for debugging
     state.taskData.tasks = tasks;
+  },
+  deleteTask(state, taskId) {
+    state.taskData.tasks = state.taskData.tasks.filter(
+      (task) => task.id !== taskId
+    );
   },
 };
 
 const actions = {
-  // Get All Tasks Request
-  async getTasks({ commit }) {
+  async fetchTasks({ commit }) {
     try {
-      const response = await ApiServices.getAllTasks();
-      const responseData = await response.json();
-      console.log(responseData.data);
-
-      commit("setTasks", responseData.data);
+      const data = await ApiServices.getAllTasks();
+      commit("setTasks", data);
     } catch (error) {
-      console.error("Error fetching tasks:", error);
+      throw new Error(error);
     }
   },
+  async deleteTask({ commit }, id) {
+    try {
+      // Send a request to the backend to delete the task by taskId
+      await ApiServices.deleteTask(id);
+
+      // If the delete request was successful, commit the mutation to delete the task from the store
+      commit("deleteTask", id);
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      throw new Error(error);
+    }
+  },
+  async createTask({ commit }, taskData) {
+    try {
+      // Send a request to create a new task
+      const response = await ApiServices.createTask(taskData);
+
+      // If the create request was successful, commit the mutation to add the new task to the store
+      commit("createTask", response.data);
+
+      return response.data; // You can return the newly created task if needed
+    } catch (error) {
+      console.error("Error creating task:", error);
+      throw new Error(error);
+    }
+  },
+
+  // // Get All Tasks Request
+  // async getTasks({ commit }) {
+  //   try {
+  //     const response = await ApiServices.getAllTasks();
+  //     const responseData = await response.json();
+  //     console.log(responseData.data);
+
+  //     commit("setTasks", responseData.data);
+  //   } catch (error) {
+  //     console.error("Error fetching tasks:", error);
+  //   }
+  // },
 };
 
 export default {

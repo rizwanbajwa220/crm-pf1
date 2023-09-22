@@ -129,24 +129,27 @@ export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
-    statusOptions: ["active", "rejected", "pending"],
+    statusOptions: ["Active", "Rejected", "Pending"],
+    userNames: ["Haris", "Kashif", "Usman"],
     editedIndex: -1,
     editedItem: {
       name: "",
       status: "",
       user_id: "",
       comments: "",
+      id: "",
     },
     defaultItem: {
       name: "",
       status: "",
       user_id: "",
       comments: "",
+      id: "",
     },
   }),
 
   computed: {
-    ...mapGetters(["getTaskData", "getUserNames"]),
+    ...mapGetters(["getTaskData"]),
     formTitle() {
       return this.editedIndex === -1 ? "Create Task" : "Edit Item";
     },
@@ -158,10 +161,10 @@ export default {
       // Accessing tasks from store
       return this.getTaskData.tasks;
     },
-    userNames() {
-      // Accessing usernames from store
-      return this.getUserNames;
-    },
+    // userNames() {
+    //   // Accessing usernames from store
+    //   return this.getUserNames;
+    // },
   },
 
   watch: {
@@ -174,11 +177,11 @@ export default {
   },
 
   methods: {
-    ...mapActions(["fetchTasks"]),
+    ...mapActions(["fetchTasks", "deleteTask", "createTask"]),
 
     getColor(status) {
-      if (status == "active") return "green";
-      else if (status == "pending") return "blue";
+      if (status == "Active") return "green";
+      else if (status == "Pending") return "blue";
       else return "red";
     },
 
@@ -194,9 +197,14 @@ export default {
       this.dialogDelete = true;
     },
 
-    deleteItemConfirm() {
-      this.tasks.splice(this.editedIndex, 1);
-      this.closeDelete();
+    async deleteItemConfirm() {
+      try {
+        // Call the deleteTask action with the taskId of the item to delete
+        await this.$store.dispatch("deleteTask", this.editedItem.id);
+        this.closeDelete();
+      } catch (error) {
+        console.error("Error deleting task:", error);
+      }
     },
 
     close() {
@@ -215,19 +223,36 @@ export default {
       });
     },
 
-    save() {
-      if (this.editedIndex > -1) {
-        Object.assign(this.tasks[this.editedIndex], this.editedItem);
-      } else {
-        this.tasks.push(this.editedItem);
+    async save() {
+      try {
+        if (this.editedIndex > -1) {
+          // Edit existing task (not shown here, use the existing logic)
+        } else {
+          // Create a new task
+          const newTaskData = {
+            name: this.editedItem.name,
+            status: this.editedItem.status,
+            user_id: this.editedItem.user_id,
+            comments: this.editedItem.comments,
+          };
+
+          // Call the createTask action to create a new task
+          console.log(newTaskData);
+          await this.createTask(newTaskData);
+
+          // Optionally, you can clear the form or close the dialog
+          this.close();
+        }
+      } catch (error) {
+        console.error("Error saving task:", error);
+        // Handle the error as needed (e.g., show a message to the user)
       }
-      this.close();
     },
   },
 
   mounted() {
     // Calling the action to fetch tasks when the component is created
-    this.getTasks();
+    this.fetchTasks();
   },
 };
 </script>
