@@ -1,11 +1,9 @@
-// Composables
 import { createRouter, createWebHistory } from "vue-router";
-import UpdateModal from "@/components/updateRoles/UpdateModal.vue";
-import RolesTable from "@/components/RoleManagement/RolesTable.vue";
-import UserManagement from "@/pages/User management/UserManagement";
-import Login from '@/views/Login.vue'
-import SignUp from '@/views/SignUp.vue'
 
+const isAuthenticated = () => {
+  //checking if token exist in local storage
+  return localStorage.getItem("token") !== null;
+};
 
 const routes = [
   {
@@ -16,32 +14,42 @@ const routes = [
         path: "",
         name: "Home",
         component: () =>
-          import(/* webpackChunkName: "home" */ "@/views/Home.vue"),
+          import(/* webpackChunkName: "home" */ "@/views/Login.vue"),
       },
       {
-        path: "/update-roles",
-        name: "update-roles",
-        component: UpdateModal,
+        path: "/signup",
+        component: () => import("../views/SignUp.vue"),
+        name: "signup",
       },
-      {
-        path: "/add-roles",
-        name: "add-roles",
-        component: RolesTable,
-      },
-      {
-        path: '/login',
-        name: 'login',
-        component: Login,
-      },
-      {
-        path: '/signup',
-        name: 'signup',
-        component: SignUp,
-      },
+    ],
+  },
+  {
+    path: "/admin-dashboard",
+    component: () => import("../components/common/NavBar.vue"),
+    beforeEnter: (to, from, next) => {
+      if (isAuthenticated()) {
+        next();
+      } else {
+        alert("You need to be logged in to access the admin dashboard.");
+        next({ path: "/" });
+      }
+    },
+    children: [
       {
         path: "/user-management",
-        name: "user-management",
-        component: UserManagement,
+        component: () => import("../pages/User management/UserManagement.vue"),
+      },
+      {
+        path: "/task",
+        component: () => import("@/pages/TaskManagementPage.vue"),
+      },
+      {
+        path: "/department",
+        component: () => import("@/pages/Department.vue"),
+      },
+      {
+        path: "/chat",
+        component: () => import("@/components/ChatBox.vue"),
       },
     ],
   },

@@ -1,64 +1,48 @@
 <template>
-      <div class="pb-2 pt-5">
-        <v-list id="side-nav">
-          <v-list-item-group>
-            <v-list-item
-              class="pl-3"
-              v-for="(item, index) in navbarItems"
-              :key="index"
+  <v-card flat>
+    <v-list flat dense>
+      <v-list-item-group>
+        <v-list-item
+          class="pl-3"
+          v-for="item in sidebarItems"
+          :key="item.title"
+          v-bind="item.attrs"
+          link
+        >
+          <v-list-item-content>
+            <v-list-item-title
+              class="text-transform-none letter-space font-12 fw-500"
             >
-              <router-link :to="item.attrs.to" :class="getNavItemClasses(item)">
-                <v-icon>{{ item.icon }}</v-icon>
-                <span class="pl-2">{{ item.title }} </span>
-              </router-link>
-              <v-divider class="py-3"></v-divider>
-            </v-list-item>
-          </v-list-item-group>
-          <v-spacer></v-spacer>
-          <v-list-item>
-            <div style="cursor: pointer" @click="logout">
-              <v-btn>
-                <v-icon>mdi-wrench</v-icon>
-                <span class="pl-2">Logout</span>
-              </v-btn>
-            </div>
-          </v-list-item>
-        </v-list>
-      </div>
+              <v-icon class="mr-3">{{ item.icon }}</v-icon>
+              {{ item.title }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item link class="pl-3" to="/chat">
+          <v-list-item-content>
+            <v-list-item-title
+              class="text-transform-none letter-space font-8 fw-500"
+            >
+              <v-icon class="mr-3">mdi-message</v-icon>
+              Chat
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list-item-group>
+    </v-list>
+  </v-card>
 </template>
 
 <script>
-import { navbarItems } from "@/constant/global.js";
+import { SideBarItems } from "@/constant/global";
+
 export default {
-  name: "Sidebar",
   data() {
     return {
-      navbarItems: navbarItems,
+      sidebarItems: SideBarItems.items,
+      logoutModal: false,
     };
-  },
-  methods: {
-    logout() {},
-    getNavItemClasses(item) {
-      const classes = {
-        "nav-item": true,
-      };
-      if (window.innerWidth < 768) {
-        classes["responsive-class"] = true;
-      } else {
-        classes["non-responsive-class"] = true;
-      }
-
-      if (item.attrs.to === this.$route.path) {
-        classes["active-class"] = true;
-      }
-
-      return classes;
-    },
   },
 };
 </script>
-<style scoped>
-#side-nav a {
-  text-decoration: none;
-}
-</style>
