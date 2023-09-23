@@ -139,7 +139,7 @@ const ApiServices = {
       });
       return res.data;
     } catch (err) {
-      alert(err);
+      throw err;
     }
   },
 

@@ -16,7 +16,20 @@ const state = {
       { title: "Created_At", align: "center", key: "created_at" },
       { title: "Actions", align: "center", key: "actions" },
     ],
-    users: [],
+    users: [
+      // {
+      //   id: 1,
+      //   name: "Ahmed",
+      //   email: "test@example.com",
+      //   created_at: "2021-06-02 10:00:00",
+      // },
+      // {
+      //   id: 2,
+      //   name: "Ahad",
+      //   email: "test@example.com",
+      //   created_at: "2021-06-02 10:00:00",
+      // },
+    ],
   },
 };
 
@@ -33,6 +46,14 @@ const mutations = {
     state.userData.users = users;
   },
 
+  setError(state, error) {
+    state.userData.error = error;
+  },
+
+  setIsLoading(state, isLoading) {
+    state.userData.isLoading = isLoading;
+  },
+
   updateUser(state, user) {
     const index = state.userData.users.findIndex((u) => u.id === user.id);
     if (index !== -1) {
@@ -46,13 +67,13 @@ const actions = {
 
   async fetchUsers({ commit }) {
     try {
-      this.isLoading = true;
+      commit("setIsLoading", true);
       const res = await Api.fetchUsers();
       commit("setUsers", res.data);
-      this.isLoading = false;
+      commit("setIsLoading", false);
     } catch (err) {
-      alert(err);
-      this.error = err;
+      commit("setError", err.message);
+      commit("setIsLoading", false);
     }
   },
 
@@ -72,7 +93,7 @@ const actions = {
       );
       commit("updateUser", resp.data);
     } catch (err) {
-      alert(err);
+      commit("setError", err.message);
     }
   },
 };
