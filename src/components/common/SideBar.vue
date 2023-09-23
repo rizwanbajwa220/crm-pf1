@@ -3,7 +3,7 @@
     <v-list flat dense>
       <v-list-item-group>
         <v-list-item
-          class="ml-3"
+          class="pl-3"
           v-for="item in sidebarItems"
           :key="item.title"
           v-bind="item.attrs"
@@ -15,6 +15,17 @@
             >
               <v-icon class="mr-3">{{ item.icon }}</v-icon>
               {{ item.title }}
+            </v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+        <v-divider></v-divider>
+        <v-list-item link class="pl-3" to="/chat">
+          <v-list-item-content>
+            <v-list-item-title
+              class="text-transform-none letter-space font-8 fw-500"
+            >
+              <v-icon class="mr-3">mdi-message</v-icon>
+              Chat
             </v-list-item-title>
           </v-list-item-content>
         </v-list-item>

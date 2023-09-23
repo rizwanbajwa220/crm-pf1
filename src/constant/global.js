@@ -4,7 +4,7 @@ export const SideBarItems = {
       title: "User Managment",
       icon: "mdi-account-settings",
       attrs: {
-        to: "",
+        to: "/user-management",
         "active-class": "primary--text list-item-active",
       },
       userPermissions: [
@@ -20,7 +20,7 @@ export const SideBarItems = {
         title: "Department",
         icon: "mdi-office-building",
         attrs: {
-          to: "/department-managment",
+          to: "/department",
           "active-class": "primary--text list-item-active",
         },
         userPermissions: [
@@ -34,7 +34,7 @@ export const SideBarItems = {
       title: "Tasks",
       icon: "mdi-format-list-bulleted",
       attrs: {
-        to: "/task-managment",
+        to: "/task",
         "active-class": "primary--text list-item-active",
       },
       userPermissions: [

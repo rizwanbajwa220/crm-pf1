@@ -5,79 +5,44 @@ import { createRouter, createWebHistory } from "vue-router";
 const routes = [
 
   {
-
     path: "/",
-
     component: () => import("@/layouts/default/Default.vue"),
-
     children: [
-
       {
-
         path: "",
-
         name: "Home",
-
         component: () =>
-
-          import(/* webpackChunkName: "home" */ "@/views/Login.vue"),
-
+        import(/* webpackChunkName: "home" */ "@/views/Login.vue"),
       },
-
     ],
-
   },
-
   {
-
     path: "/admin-dashboard",
-
     component: () => import("../components/common/NavBar.vue"),
-
     children: [
-
       {
-
-        path: "", // This will match "/admin-dashboard" by default
-
+        path: "/user-management", 
         component: () => import("../pages/User management/UserManagement.vue"),
-
       },
-
       {
-
-        path: "/task-management", // This will match "/admin-dashboard/task-management"
-
+        path: "/task", 
         component: () => import("@/pages/TaskManagementPage.vue"),
-
       },
-
       {
-
-        path: "/department-management", // You can define other nested routes as needed
-
+        path: "/department",
         component: () => import("@/pages/Department.vue"),
-
       },
-
-      // ...
-
+      {
+        path: "/chat",
+        component: () => import("@/components/ChatBox.vue"),
+      },
     ],
-
   },
-
 ];
 
-
-
 const router = createRouter({
-
   history: createWebHistory(process.env.BASE_URL),
-
   routes,
-
 });
-
-
 
 export default router;

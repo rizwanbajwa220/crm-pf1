@@ -12,7 +12,7 @@
 
     <v-app-bar elevation="1">
       <v-app-bar-nav-icon @click="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-app-bar-title>Application</v-app-bar-title>
+      <v-app-bar-title>{{ selectedMenuItem }}</v-app-bar-title>
     </v-app-bar>
 
     <v-main>
@@ -21,25 +21,25 @@
   </v-app>
 </template>
 
-<script setup>
-import Chatbox from "../ChatBox.vue";
-import SideBar from "./SideBar.vue";
-</script>
-
 <script>
+import SideBar from "./SideBar.vue";
+import ChatBox from "../ChatBox.vue";
+import UserManagement from "@/pages/User management/UserManagement.vue";
+import Department from "@/pages/Department.vue";
+import TaskManagementPage from "@/pages/TaskManagementPage.vue";
+
 export default {
   data: () => ({
     drawer: null,
+    selectedMenuItem: "Application", 
   }),
-  methods: {
-    selectItem(item) {
-      this.selectedItem = item.title;
-      this.drawer = false; // Close the drawer when an item is selected (optional)
-      console.log("clicked", item);
-    },
-  },
+  
   components: {
-    Chatbox,
+    ChatBox,
+    SideBar,
+    UserManagement,
+    Department,
+    TaskManagementPage,
   },
 };
 </script>
