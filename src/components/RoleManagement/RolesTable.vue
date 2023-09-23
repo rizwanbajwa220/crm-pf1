@@ -81,28 +81,6 @@ export default {
     return {
       selectedRole: "User",
       roles: ["Admin", "Team", "Task", "Department"],
-      //store permission retrieved from store in a variable
-      permissions1: [
-        // "Fake duplication",
-        // "Age estimation",
-        // "Edit role",
-        // "View role permission",
-        // "Edit merchant",
-        // "View integration guide",
-        // "View user management",
-        // "View transactions",
-        // "One to one demo",
-      ],
-      permissions2: [
-        // "Perform demo",
-        // "View dashboard merchant",
-        // "Face enrollment",
-        // "One to many demo",
-        // "Delete role",
-        // "Add role",
-        // "Activate deactivate merchant",
-        // "Invite merchant",
-      ],
       selectedPermissions: [],
       selectAllPermissions: false, // New data property
     };
