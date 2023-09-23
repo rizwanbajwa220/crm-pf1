@@ -44,7 +44,7 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="permission in permissions1"
+            v-for="permission in firstHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
@@ -56,7 +56,7 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="permission in permissions2"
+            v-for="permission in secondHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
@@ -70,7 +70,9 @@
 
 <script>
 import RoleModal from "./RoleModal.vue";
-
+import { SideBarItems } from "@/constant/global";
+import { mapGetters } from "vuex";
+console.log(SideBarItems.items.map((item) => item.userPermissions));
 export default {
   components: {
     RoleModal,
@@ -78,31 +80,52 @@ export default {
   data() {
     return {
       selectedRole: "User",
-      roles: ["User", "Team", "Task", "Department"],
+      roles: ["Admin", "Team", "Task", "Department"],
+      //store permission retrieved from store in a variable
       permissions1: [
-        "Fake duplication",
-        "Age estimation",
-        "Edit role",
-        "View role permission",
-        "Edit merchant",
-        "View integration guide",
-        "View user management",
-        "View transactions",
-        "One to one demo",
+        // "Fake duplication",
+        // "Age estimation",
+        // "Edit role",
+        // "View role permission",
+        // "Edit merchant",
+        // "View integration guide",
+        // "View user management",
+        // "View transactions",
+        // "One to one demo",
       ],
       permissions2: [
-        "Perform demo",
-        "View dashboard merchant",
-        "Face enrollment",
-        "One to many demo",
-        "Delete role",
-        "Add role",
-        "Activate deactivate merchant",
-        "Invite merchant",
+        // "Perform demo",
+        // "View dashboard merchant",
+        // "Face enrollment",
+        // "One to many demo",
+        // "Delete role",
+        // "Add role",
+        // "Activate deactivate merchant",
+        // "Invite merchant",
       ],
       selectedPermissions: [],
       selectAllPermissions: false, // New data property
     };
+  },
+  computed: {
+    ...mapGetters(["getPermissions"]),
+    firstHalfArray() {
+      const middleIndex = Math.ceil(this.getPermissions.length / 2);
+      // return only half of the array
+      const halfArray = [];
+      for (let i = 0; i < middleIndex; i++) {
+        halfArray.push(this.getPermissions[i]);
+      }
+      return halfArray;
+    },
+    secondHalfArray() {
+      const middleIndex = Math.ceil(this.getPermissions.length / 2);
+      const secondHalfArray = [];
+      for (let i = middleIndex; i < this.getPermissions.length; i++) {
+        secondHalfArray.push(this.getPermissions[i]);
+      }
+      return secondHalfArray;
+    },
   },
   methods: {
     SavePermission() {
