@@ -14,7 +14,11 @@
         color="primary"
         class="my-5"
       ></v-progress-circular>
-      <div v-if="getError" color="red" class="my-5 text-h6 red">
+      <div
+        v-if="getError && !getIsLoading"
+        color="red"
+        class="my-5 text-h6 red"
+      >
         {{ getError }}
       </div>
     </div>
