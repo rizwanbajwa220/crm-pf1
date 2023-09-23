@@ -4,12 +4,11 @@ import router from "../../router/index.js";
 const state = {
   loginCredentials: null,
   permissions: [],
-  // admin: []
 };
 
 const mutations = {
   SET_LOGIN_CREDENTIALS(state, data) {
-    localStorage.setItem("token", data.token);
+    localStorage.setItem('token', data.token);
     state.loginCredentials = data;
 
     // Extract and store permissions
@@ -21,8 +20,8 @@ const actions = {
   async loginUser({ commit }, { email, password }) {
     try {
       const response = await ApiServices.login(email, password);
-      commit("SET_LOGIN_CREDENTIALS", response);
-      router.push({ path: "/admin-dashboard" });
+      commit('SET_LOGIN_CREDENTIALS', response);
+      router.push({ path: '/admin-dashboard' });
 
       // Log state.permissions in the next tick of the event loop
       setTimeout(() => {
@@ -30,7 +29,6 @@ const actions = {
       }, 0);
     } catch (error) {
       console.error("Login failed", error);
-      // Handle login error, e.g., display an error message to the user
     }
   },
 };

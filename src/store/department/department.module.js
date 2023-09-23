@@ -59,7 +59,7 @@ const actions = {
 
     try {
       await ApiServices.deleteDepartment(id);
-      commit("updateDepart", id);
+      commit("deleteDepart", id);
 
     } catch (error) {
 
@@ -68,6 +68,27 @@ const actions = {
     }
   },
 
+  async updateDepartment({ commit }, { id, name }) {
+    try {
+      const response = await ApiServices.updateDepartment(id, name);
+      commit("updateDepartmentName", response.data);
+    } catch (error) {
+      console.error("Error updating department:", error);
+      throw new Error(error);
+    }
+  },
+
+  
+  async createDepartment({ commit }, departmentName) {
+    try {
+      const response = await ApiServices.createDepartment(departmentName);
+
+      commit('addDepartments', response);
+    } catch (error) {
+      console.error("Error creating department:", error);
+      throw new Error(error);
+    }
+  },
 
 };
 
@@ -82,19 +103,21 @@ const mutations = {
     );
   },
 
-  updateDepart(state, updatedDepartment) {
-    // Find the index of the department to be updated in the state
-    const index = state.departmentData.departments.findIndex(
-      (department) => department.id === updatedDepartment.id
-    );
-
-    if (index !== -1) {
-      // Replace the old department data with the updated data
-      state.departmentData.departments.splice(index, 1, updatedDepartment);
-    }
+  addDepartments(state, newDep) {
+    state.departmentData.departments.push(newDep);
   },
 
-};
+  updateDepartmentName(state, updatedTaskData) {
+
+    const index = state.departmentData.departments.findIndex((d) => d.id === updatedTaskData.id);
+    if (index !== -1) {
+      state.departmentData.departments[index] = updatedTaskData;
+    }
+
+  },
+
+  }
+
 
 export default {
   state,
