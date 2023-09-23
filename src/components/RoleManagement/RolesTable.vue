@@ -1,4 +1,5 @@
 <template>
+  {{ computedPermissions }}
   <v-row>
     <v-col cols="12" md="6" density="compact">
       <h2>Roles and permissions</h2>
@@ -14,10 +15,14 @@
     <v-col cols="12" md="3" class="role-column" density="compact">
       <h3 class="mb-3">Select Role</h3>
       <v-list dense>
-        <v-list-item-group v-model="selectedRole">
-          <v-list-item v-for="role in roles" :key="role" :value="role">{{
-            role
-          }}</v-list-item>
+        <v-list-item-group>
+          <v-list-item
+            v-for="role in roles"
+            :key="role"
+            :value="role"
+            @click="updateSelectedRole(role)"
+            >{{ role }}</v-list-item
+          >
         </v-list-item-group>
       </v-list>
     </v-col>
@@ -48,7 +53,6 @@
             :key="permission"
             :label="permission"
             color="primary"
-            v-model="selectAllPermissions"
           />
         </v-col>
 
@@ -60,7 +64,6 @@
             :key="permission"
             :label="permission"
             color="primary"
-            v-model="selectAllPermissions"
           />
         </v-col>
       </v-row>
@@ -72,7 +75,9 @@
 import RoleModal from "./RoleModal.vue";
 import { SideBarItems } from "@/constant/global";
 import { mapGetters } from "vuex";
+console.log(SideBarItems.items.map((item) => item.userPermissions[0]));
 console.log(SideBarItems.items.map((item) => item.userPermissions));
+// console.log(selectedRole);
 export default {
   components: {
     RoleModal,
@@ -80,7 +85,7 @@ export default {
   data() {
     return {
       selectedRole: "User",
-      roles: ["Admin", "Team", "Task", "Department"],
+      roles: ["User Managment", "Teams", "Tasks", "Department"],
       selectedPermissions: [],
       selectAllPermissions: false, // New data property
     };
@@ -104,10 +109,34 @@ export default {
       }
       return secondHalfArray;
     },
+    //to compute the permissions of the selected role
+
+    // function to get the array of permissions of each role,
+
+    // permissionSetofEachRole() {
+    //   const selectedRole = this.selectedRole;
+    //   console.log(selectedRole);
+    //   const matchedPermissions = SideBarItems.items.map(
+    //     (item) => item.userPermissions
+    //   );
+    //   console.log("matchedPermissions: ", matchedPermissions);
+    // },
+    computedPermissions() {
+      const selectedRole = this.selectedRole;
+      const matchedItem = SideBarItems.items.find(
+        (item) => item.title === selectedRole
+      );
+      return matchedItem ? matchedItem.userPermissions : [];
+    },
   },
   methods: {
     SavePermission() {
       console.log("Selected Permissions: ", this.selectedPermissions);
+    },
+    //update the selected role
+    updateSelectedRole(role) {
+      this.selectedRole = role;
+      this.selectedPermissions = this.computedPermissions;
     },
   },
 };
