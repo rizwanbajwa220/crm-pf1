@@ -1,4 +1,6 @@
 <template>
+  {{ selectedPermissions }}
+  {{ computedPermissions }}
   <v-row>
     <v-col cols="12" md="6" density="compact">
       <h2>Roles and permissions</h2>
@@ -48,11 +50,12 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="(permission, index) in firstHalfArray"
+            v-for="permission in firstHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
-            v-model="selectedPermissions[index]"
+            :value="permission"
+            v-model="selectedPermissions"
           />
         </v-col>
 
@@ -60,19 +63,17 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="(permission, index) in secondHalfArray"
+            v-for="permission in secondHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
-            v-model="selectedPermissions[index]"
+            :value="permission"
+            v-model="selectedPermissions"
           />
         </v-col>
       </v-row>
     </v-col>
   </v-row>
-  <div v-for="(state, index) in selectedPermissions" :key="index">
-    Checkbox {{ index + 1 }}: {{ state ? "Checked" : "Unchecked" }}
-  </div>
 </template>
 
 <script>
@@ -90,7 +91,7 @@ export default {
     return {
       selectedRole: "User",
       roles: ["User Managment", "Teams", "Tasks", "Department"],
-      selectedPermissions: [],
+      selectedPermissions: ["can-access-all-users"],
       selectAllPermissions: false, // New data property
     };
   },
@@ -121,8 +122,7 @@ export default {
       );
       const permissions = matchedItem ? matchedItem.userPermissions : [];
       //Initializes selectedPermissions based on computedPermissions for the initially selected role
-      this.selectedPermissions = permissions.map(() => true);
-      console.log("Hi I am permissions: ", permissions);
+      this.selectedPermissions = permissions.slice();
       return permissions;
     },
   },
@@ -133,15 +133,14 @@ export default {
     //update the selected role
     updateSelectedRole(role) {
       this.selectedRole = role;
-      console.log("Computed Permissions: ", this.computedPermissions);
     },
   },
-  created() {
-    // Initialize selectedPermissions based on computedPermissions for the initially selected role
-    this.selectedPermissions = this.computedPermissions.slice();
-    console.log("computed permissions:", this.computedPermissions);
-    console.log("Initialized selectedPermissions: ", this.selectedPermissions);
-  },
+  // created() {
+  //   // Initialize selectedPermissions based on computedPermissions for the initially selected role
+  //   this.selectedPermissions = this.computedPermissions.slice();
+  //   console.log("computed permissions:", this.computedPermissions);
+  //   console.log("Initialized selectedPermissions: ", this.selectedPermissions);
+  // },
 };
 </script>
 
