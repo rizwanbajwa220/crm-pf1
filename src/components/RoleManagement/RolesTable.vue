@@ -14,10 +14,14 @@
     <v-col cols="12" md="3" class="role-column" density="compact">
       <h3 class="mb-3">Select Role</h3>
       <v-list dense>
-        <v-list-item-group v-model="selectedRole">
-          <v-list-item v-for="role in roles" :key="role" :value="role">{{
-            role
-          }}</v-list-item>
+        <v-list-item-group>
+          <v-list-item
+            v-for="role in roles"
+            :key="role"
+            :value="role"
+            @click="updateSelectedRole(role)"
+            >{{ role }}</v-list-item
+          >
         </v-list-item-group>
       </v-list>
     </v-col>
@@ -44,11 +48,12 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="permission in permissions1"
+            v-for="permission in firstHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
-            v-model="selectAllPermissions"
+            :value="permission"
+            v-model="selectedPermissions"
           />
         </v-col>
 
@@ -56,11 +61,12 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="permission in permissions2"
+            v-for="permission in secondHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
-            v-model="selectAllPermissions"
+            :value="permission"
+            v-model="selectedPermissions"
           />
         </v-col>
       </v-row>
@@ -70,7 +76,11 @@
 
 <script>
 import RoleModal from "./RoleModal.vue";
-
+import { SideBarItems } from "@/constant/global";
+import { mapGetters } from "vuex";
+// console.log(SideBarItems.items.map((item) => item.userPermissions[0]));
+// console.log(SideBarItems.items.map((item) => item.userPermissions));
+// console.log(selectedRole);
 export default {
   components: {
     RoleModal,
@@ -78,36 +88,59 @@ export default {
   data() {
     return {
       selectedRole: "User",
-      roles: ["User", "Team", "Task", "Department"],
-      permissions1: [
-        "Fake duplication",
-        "Age estimation",
-        "Edit role",
-        "View role permission",
-        "Edit merchant",
-        "View integration guide",
-        "View user management",
-        "View transactions",
-        "One to one demo",
-      ],
-      permissions2: [
-        "Perform demo",
-        "View dashboard merchant",
-        "Face enrollment",
-        "One to many demo",
-        "Delete role",
-        "Add role",
-        "Activate deactivate merchant",
-        "Invite merchant",
-      ],
-      selectedPermissions: [],
+      roles: ["User Managment", "Teams", "Tasks", "Department"],
+      selectedPermissions: ["can-access-all-users"],
       selectAllPermissions: false, // New data property
     };
   },
+  computed: {
+    ...mapGetters(["getPermissions"]),
+    firstHalfArray() {
+      const middleIndex = Math.ceil(this.getPermissions.length / 2);
+      // return only half of the array
+      const halfArray = [];
+      for (let i = 0; i < middleIndex; i++) {
+        halfArray.push(this.getPermissions[i]);
+      }
+      return halfArray;
+    },
+    secondHalfArray() {
+      const middleIndex = Math.ceil(this.getPermissions.length / 2);
+      const secondHalfArray = [];
+      for (let i = middleIndex; i < this.getPermissions.length; i++) {
+        secondHalfArray.push(this.getPermissions[i]);
+      }
+      return secondHalfArray;
+    },
+    // Computed property to return the permissions for the selected role
+    computedPermissions() {
+      const selectedRole = this.selectedRole;
+      const matchedItem = SideBarItems.items.find(
+        (item) => item.title === selectedRole
+      );
+      const permissions = matchedItem ? matchedItem.userPermissions : [];
+      //Initializes selectedPermissions based on computedPermissions for the initially selected role
+      this.selectedPermissions = permissions.slice();
+      console.log(permissions);
+      return permissions;
+    },
+  },
   methods: {
     SavePermission() {
-      console.log("Selected Permissions: ", this.selectedPermissions);
+      // console.log("Selected Permissions: ", this.selectedPermissions);
     },
+    //update the selected role
+    updateSelectedRole(role) {
+      this.selectedRole = role;
+      this.selectedPermissions = this.computedPermissions.slice();
+    },
+  },
+  // add on mount
+  mounted() {
+    // set the selected role to the first role in the roles array
+    this.selectedRole = this.roles[0];
+    // set the selected permissions to the permissions for the first role in the roles array
+    this.selectedPermissions = this.computedPermissions.slice();
   },
 };
 </script>

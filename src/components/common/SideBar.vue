@@ -36,6 +36,7 @@
 
 <script>
 import { SideBarItems } from "@/constant/global";
+import { mapGetters } from "vuex";
 
 export default {
   data() {
@@ -43,6 +44,9 @@ export default {
       sidebarItems: SideBarItems.items,
       logoutModal: false,
     };
+  },
+  computed: {
+    ...mapGetters(["getPermissions"]),
   },
 };
 </script>
