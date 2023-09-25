@@ -135,12 +135,13 @@ export default {
       this.selectedPermissions = this.computedPermissions.slice();
     },
   },
-  // created() {
-  //   // Initialize selectedPermissions based on computedPermissions for the initially selected role
-  //   this.selectedPermissions = this.computedPermissions.slice();
-  //   console.log("computed permissions:", this.computedPermissions);
-  //   console.log("Initialized selectedPermissions: ", this.selectedPermissions);
-  // },
+  // add on mount
+  mounted() {
+    // set the selected role to the first role in the roles array
+    this.selectedRole = this.roles[0];
+    // set the selected permissions to the permissions for the first role in the roles array
+    this.selectedPermissions = this.computedPermissions.slice();
+  },
 };
 </script>
 
