@@ -69,7 +69,7 @@ const actions = {
     try {
       commit("setIsLoading", true);
       const res = await Api.fetchUsers();
-      commit("setUsers", res.data);
+      commit("setUsers", res);
       commit("setIsLoading", false);
     } catch (err) {
       commit("setError", err.message);
