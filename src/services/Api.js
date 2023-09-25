@@ -137,7 +137,7 @@ const ApiServices = {
           Authorization: `Bearer ${token}`,
         },
       });
-      return res.data;
+      return res.data.data;
     } catch (err) {
       throw err;
     }
@@ -172,7 +172,7 @@ const ApiServices = {
       throw new Error(error);
     }
   },
-  
+
   async deleteDepartment(id) {
     const token = localStorage.getItem("token");
     try {
