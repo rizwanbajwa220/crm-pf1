@@ -121,6 +121,7 @@ export default {
       const permissions = matchedItem ? matchedItem.userPermissions : [];
       //Initializes selectedPermissions based on computedPermissions for the initially selected role
       this.selectedPermissions = permissions.slice();
+      console.log(permissions);
       return permissions;
     },
   },
@@ -131,6 +132,7 @@ export default {
     //update the selected role
     updateSelectedRole(role) {
       this.selectedRole = role;
+      this.selectedPermissions = this.computedPermissions.slice();
     },
   },
   // created() {
