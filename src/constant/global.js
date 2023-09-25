@@ -7,7 +7,7 @@ export const SideBarItems = {
         to: "/user-management",
         "active-class": "primary--text list-item-active",
       },
-      userPermissions: [
+      permissions: [
         "can-access-all-users",
         "can-view-members",
         "can-create-members",
@@ -23,7 +23,7 @@ export const SideBarItems = {
           to: "/department",
           "active-class": "primary--text list-item-active",
         },
-        userPermissions: [
+        permissions: [
           "can-add-department",
           "can-update-department",
           "can-delete-department",
@@ -37,7 +37,7 @@ export const SideBarItems = {
         to: "/task",
         "active-class": "primary--text list-item-active",
       },
-      userPermissions: [
+      permissions: [
         "can-create-task",
         "can-view-task",
         "can-delete-task",
@@ -52,7 +52,7 @@ export const SideBarItems = {
       //   to: "/teams-managment",
       //   "active-class": "primary--text list-item-active",
       // },
-      userPermissions: [
+      permissions: [
         "can-view-team",
         "can-create-team",
         "can-update-team",

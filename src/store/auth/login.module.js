@@ -3,28 +3,7 @@ import router from "../../router/index.js";
 
 const state = {
   loginCredentials: null,
-  permissions: [
-    "can-access-all-users",
-    "can-create-task",
-    "can-view-task",
-    "can-delete-task",
-    "can-update-task",
-    "can-reassign-task",
-    "can-view-team",
-    "can-create-team",
-    "can-update-team",
-    "can-view-specific-team",
-    "can-delete-team",
-    "can-view-members",
-    "can-create-members",
-    "can-view-specific-member",
-    "can-update-member",
-    "can-delete-member",
-    "can-add-department",
-    "can-update-department",
-    "can-delete-department",
-    "can-view-department",
-  ],
+  permissions: [],
 };
 
 const mutations = {
