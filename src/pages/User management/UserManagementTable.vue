@@ -1,10 +1,4 @@
 <template>
-  <v-progress-circular
-    v-if="getIsLoading"
-    indeterminate
-    color="blue"
-  ></v-progress-circular>
-
   <v-data-table
     :headers="getHeaders"
     :items="getUsers"
@@ -12,34 +6,34 @@
     :sort-by="[{ key: 'description', order: 'asc' }]"
     class="elevation-1"
   >
+    <div class="d-flex justify-center align-center">
+      <v-progress-circular
+        v-if="getIsLoading"
+        indeterminate
+        size="36"
+        color="primary"
+        class="my-5"
+      ></v-progress-circular>
+      <div
+        v-if="getError && !getIsLoading"
+        color="red"
+        class="my-5 text-h6 red"
+      >
+        {{ getError }}
+      </div>
+    </div>
+
     <template v-slot:top>
       <v-toolbar flat>
         <v-toolbar-title>All Users</v-toolbar-title>
 
-        <v-divider class="mx-4" inset vertical></v-divider>
-
         <v-spacer></v-spacer>
 
         <v-dialog v-model="dialog" max-width="500px">
-          <template v-slot:activator="{ props }">
-            <v-btn
-              prepend-icon="mdi-plus-circle"
-              color="white"
-              dark
-              class="mb-2"
-              rounded="xl"
-              v-bind="props"
-              style="background-color: blue"
-            >
-              Add New
-            </v-btn>
-          </template>
-
           <v-card>
             <v-card-title>
               <span class="text-h5">{{ formTitle }}</span>
             </v-card-title>
-
             <v-card-text>
               <v-container>
                 <v-row>
@@ -282,3 +276,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.red {
+  color: red;
+}
+</style>

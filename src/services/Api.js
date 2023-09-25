@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BASE_URL = "http://10.0.10.230:3500/api";
+const BASE_URL = "http://10.0.10.34:3500/api";
 
 const ApiServices = {
   // TASK-MANAGEMENT APIs
@@ -139,7 +139,7 @@ const ApiServices = {
       });
       return res.data;
     } catch (err) {
-      alert(err);
+      throw err;
     }
   },
 
