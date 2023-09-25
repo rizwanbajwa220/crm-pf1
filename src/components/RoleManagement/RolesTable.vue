@@ -1,5 +1,4 @@
 <template>
-  {{ computedPermissions }}
   <v-row>
     <v-col cols="12" md="6" density="compact">
       <h2>Roles and permissions</h2>
@@ -49,10 +48,11 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="permission in firstHalfArray"
+            v-for="(permission, index) in firstHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
+            v-model="selectedPermissions[index]"
           />
         </v-col>
 
@@ -60,23 +60,27 @@
         <v-col cols="12" md="6" density="compact">
           <v-checkbox
             density="compact"
-            v-for="permission in secondHalfArray"
+            v-for="(permission, index) in secondHalfArray"
             :key="permission"
             :label="permission"
             color="primary"
+            v-model="selectedPermissions[index]"
           />
         </v-col>
       </v-row>
     </v-col>
   </v-row>
+  <div v-for="(state, index) in selectedPermissions" :key="index">
+    Checkbox {{ index + 1 }}: {{ state ? "Checked" : "Unchecked" }}
+  </div>
 </template>
 
 <script>
 import RoleModal from "./RoleModal.vue";
 import { SideBarItems } from "@/constant/global";
 import { mapGetters } from "vuex";
-console.log(SideBarItems.items.map((item) => item.userPermissions[0]));
-console.log(SideBarItems.items.map((item) => item.userPermissions));
+// console.log(SideBarItems.items.map((item) => item.userPermissions[0]));
+// console.log(SideBarItems.items.map((item) => item.userPermissions));
 // console.log(selectedRole);
 export default {
   components: {
@@ -109,35 +113,34 @@ export default {
       }
       return secondHalfArray;
     },
-    //to compute the permissions of the selected role
-
-    // function to get the array of permissions of each role,
-
-    // permissionSetofEachRole() {
-    //   const selectedRole = this.selectedRole;
-    //   console.log(selectedRole);
-    //   const matchedPermissions = SideBarItems.items.map(
-    //     (item) => item.userPermissions
-    //   );
-    //   console.log("matchedPermissions: ", matchedPermissions);
-    // },
+    // Computed property to return the permissions for the selected role
     computedPermissions() {
       const selectedRole = this.selectedRole;
       const matchedItem = SideBarItems.items.find(
         (item) => item.title === selectedRole
       );
-      return matchedItem ? matchedItem.userPermissions : [];
+      const permissions = matchedItem ? matchedItem.userPermissions : [];
+      //Initializes selectedPermissions based on computedPermissions for the initially selected role
+      this.selectedPermissions = permissions.map(() => true);
+      console.log("Hi I am permissions: ", permissions);
+      return permissions;
     },
   },
   methods: {
     SavePermission() {
-      console.log("Selected Permissions: ", this.selectedPermissions);
+      // console.log("Selected Permissions: ", this.selectedPermissions);
     },
     //update the selected role
     updateSelectedRole(role) {
       this.selectedRole = role;
-      this.selectedPermissions = this.computedPermissions;
+      console.log("Computed Permissions: ", this.computedPermissions);
     },
+  },
+  created() {
+    // Initialize selectedPermissions based on computedPermissions for the initially selected role
+    this.selectedPermissions = this.computedPermissions.slice();
+    console.log("computed permissions:", this.computedPermissions);
+    console.log("Initialized selectedPermissions: ", this.selectedPermissions);
   },
 };
 </script>
