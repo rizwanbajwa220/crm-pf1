@@ -1,6 +1,4 @@
 <template>
-  {{ selectedPermissions }}
-  {{ computedPermissions }}
   <v-row>
     <v-col cols="12" md="6" density="compact">
       <h2>Roles and permissions</h2>
