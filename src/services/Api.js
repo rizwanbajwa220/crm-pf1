@@ -172,64 +172,7 @@ const ApiServices = {
       throw new Error(error);
     }
   },
-  async deleteDepartment(id) {
-    const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
-    try {
-      const response = await axios.get(`${BASE_URL}/departments`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the headers
-        },
-      });
-      return response.data.data;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-
-  async deleteDepartment(id) {
-    const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
-    try {
-      const response = await axios.get(`${BASE_URL}/departments/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`, // Include the token in the headers
-        },
-      });
-      return response.data.data; // Return the response data
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-
-  async updateDepartment(id) {
-    const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
-    try {
-      const response = await axios.get(`${BASE_URL}/departments/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      return response.data.data;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-
-  async getDepartments() {
-    const token = "14|Rdgt8MkOjlNxhkSIlD2maDHGmDduxlQeCHpDnMaDf8d8eaec";
-    try {
-      const response = await axios.get(`${BASE_URL}/departments`, {
-        headers: {
-          // Include the token in the headers
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      // Return the response data
-      return response.data.data;
-    } catch (error) {
-      throw new Error(error);
-    }
-  },
-
+  
   async deleteDepartment(id) {
     const token = localStorage.getItem("token");
     try {
@@ -246,7 +189,7 @@ const ApiServices = {
 
   async updateDepartment(id, name) {
     const token = localStorage.getItem("token");
-    console.log("id", id);
+    // console.log("id", id);
     try {
       const response = await axios.put(
         `${BASE_URL}/departments/${id}`,
@@ -260,7 +203,7 @@ const ApiServices = {
           },
         }
       );
-      return response.data.data;
+      return response.data;
     } catch (error) {
       throw new Error(error);
     }

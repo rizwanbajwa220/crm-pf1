@@ -127,7 +127,7 @@ export default {
         dialogDelete: false,
         editedIndex: -1,
         editedItem: {
-            id: "",
+            id: null,
             name: "",
             createdAt: "",
             actions: [{
@@ -191,6 +191,7 @@ export default {
 
         editItem(item) {
             this.editedIndex = this.allDepartments.indexOf(item);
+            // console.log("editedIndex",this.editedIndex)
             this.editedItem = Object.assign({}, item);
             this.dialog = true;
         },
@@ -230,25 +231,23 @@ export default {
             });
         },
 
-        
-
         async save() {
-      try {
-        if (this.editedIndex > -1) {
-          await this.updateDepartment({
-        id: this.editedItem.id, 
-        name: this.editedItem.name, 
-      });
-        } else {
-         
-          await this.createDepartment(this.editedItem.name); 
-        }
-        this.close();
-      } catch (error) {
-        console.error("Error updating department:", error);
-      }
-    },
+            try {
+                if (this.editedIndex > -1) {
+                    await this.updateDepartment({
+                        id: this.editedItem.id,
+                        name: this.editedItem.name,
+                    });
+                    // console.log("editedItemID",this.editedItem.id)
+                } else {
 
+                    await this.createDepartment(this.editedItem.name);
+                }
+                this.close();
+            } catch (error) {   
+                console.error("Error updating department:", error);
+            }
+        },
 
     },
     mounted() {

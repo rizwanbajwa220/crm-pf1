@@ -55,22 +55,11 @@ const actions = {
     }
   },
 
-  async deleteDepartment({ commit }, id) {
-
-    try {
-      await ApiServices.deleteDepartment(id);
-      commit("deleteDepart", id);
-
-    } catch (error) {
-
-      console.error("Error Updating:", error);
-      throw new Error(error);
-    }
-  },
 
   async updateDepartment({ commit }, { id, name }) {
     try {
       const response = await ApiServices.updateDepartment(id, name);
+      // console.log("res",response.data)
       commit("updateDepartmentName", response.data);
     } catch (error) {
       console.error("Error updating department:", error);
@@ -110,6 +99,7 @@ const mutations = {
   updateDepartmentName(state, updatedTaskData) {
 
     const index = state.departmentData.departments.findIndex((d) => d.id === updatedTaskData.id);
+    console.log("index",index)
     if (index !== -1) {
       state.departmentData.departments[index] = updatedTaskData;
     }
