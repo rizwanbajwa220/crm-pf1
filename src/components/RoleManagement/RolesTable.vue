@@ -41,7 +41,7 @@
             @click="selectAllPermissions"
             v-model="selectAllChecked"
           ></v-checkbox>
-          <span @click="SavePermission" class="mb-7">Save</span>
+          <span @click="SavePermission" class="mb-7 pointer">Save</span>
         </div>
       </div>
 
@@ -80,10 +80,22 @@
 import RoleModal from "./RoleModal.vue";
 import { SideBarItems } from "@/constant/global";
 import { mapGetters } from "vuex";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+
 // console.log(SideBarItems.items.map((item) => item.userPermissions[0]));
 // console.log(SideBarItems.items.map((item) => item.userPermissions));
 // console.log(selectedRole);
 export default {
+  setup() {
+    const notify = (message) => {
+      toast(message, {
+        autoClose: 1000,
+        position: "top-center",
+      }); // ToastOptions
+    };
+    return { notify };
+  },
   components: {
     RoleModal,
   },
@@ -130,6 +142,8 @@ export default {
   methods: {
     SavePermission() {
       // console.log("Selected Permissions: ", this.selectedPermissions);
+      // show toast
+      this.notify("Permissions Saved");
     },
     //update the selected role
     updateSelectedRole(role) {
@@ -187,5 +201,19 @@ export default {
   border: 1px solid #ddd;
   border-radius: 5px;
   padding: 10px;
+}
+
+.pointer {
+  transition: all 0.3s ease-in-out;
+  color: gray;
+  border: 1px solid gray;
+  padding: 5px;
+  border-radius: 5px;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  color: black;
+  transform: scale(1.1);
 }
 </style>
