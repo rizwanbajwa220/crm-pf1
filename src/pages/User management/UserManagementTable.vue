@@ -39,6 +39,53 @@
                       v-model="editedItem.confirm_password"
                       label="Confirm Password"
                     ></v-text-field>
+                    <v-col cols="12" md="9">
+                      <div class="d-flex justify-space-between pt-1">
+                        <h3 class="">Permissions</h3>
+
+                        <div class="d-flex align-center justify-center">
+                          <v-checkbox
+                            color="primary"
+                            label="Select All"
+                            density="compact"
+                            class="me-5"
+                            @click="selectAllPermissions"
+                            v-model="selectAllChecked"
+                          ></v-checkbox>
+                          <span @click="SavePermission" class="mb-7 pointer"
+                            >Save</span
+                          >
+                        </div>
+                      </div>
+
+                      <v-row>
+                        <!-- First Permissions Column -->
+                        <v-col cols="12" md="6" density="compact">
+                          <v-checkbox
+                            density="compact"
+                            v-for="permission in firstHalfArray"
+                            :key="permission"
+                            :label="permission"
+                            color="primary"
+                            :value="permission"
+                            v-model="selectedPermissions"
+                          />
+                        </v-col>
+
+                        <!-- Second Permissions Column -->
+                        <v-col cols="12" md="6" density="compact">
+                          <v-checkbox
+                            density="compact"
+                            v-for="permission in secondHalfArray"
+                            :key="permission"
+                            :label="permission"
+                            color="primary"
+                            :value="permission"
+                            v-model="selectedPermissions"
+                          />
+                        </v-col>
+                      </v-row>
+                    </v-col>
                   </v-col>
 
                   <v-col cols="12" sm="6" md="4"> </v-col>
@@ -122,11 +169,15 @@
 
 <script>
 import { mapGetters, mapActions } from "vuex";
+import { toast } from "vue3-toastify";
+import "vue3-toastify/dist/index.css";
+import { SideBarItems } from "@/constant/global";
 export default {
   data: () => ({
     dialog: false,
     dialogDelete: false,
     editedIndex: -1,
+    selectedPermissions: ["can-access-all-users"],
     editedItem: {
       name: "",
       createdAt: "",
@@ -156,6 +207,7 @@ export default {
       ],
     },
     readonlyEmail: false, // Add this property
+    selectAllChecked: false,
   }),
   computed: {
     ...mapGetters([
@@ -164,9 +216,27 @@ export default {
       "getItemsPerPage",
       "getIsLoading",
       "getError",
+      "getPermissions",
     ]),
     headers() {
       return this.getHeaders;
+    },
+    firstHalfArray() {
+      const middleIndex = Math.ceil(this.getPermissions.length / 2);
+      // return only half of the array
+      const halfArray = [];
+      for (let i = 0; i < middleIndex; i++) {
+        halfArray.push(this.getPermissions[i]);
+      }
+      return halfArray;
+    },
+    secondHalfArray() {
+      const middleIndex = Math.ceil(this.getPermissions.length / 2);
+      const secondHalfArray = [];
+      for (let i = middleIndex; i < this.getPermissions.length; i++) {
+        secondHalfArray.push(this.getPermissions[i]);
+      }
+      return secondHalfArray;
     },
     formTitle() {
       return this.editedIndex === -1 ? "Create User" : "Edit User";
@@ -182,6 +252,12 @@ export default {
   },
   methods: {
     ...mapActions(["fetchUsers", "updateUser"]),
+    selectAllPermissions() {
+      this.selectAllChecked = !this.selectAllChecked;
+      if (this.selectAllChecked === true) {
+        this.selectedPermissions = this.getPermissions.slice();
+      }
+    },
     editItem(item) {
       // use the updateuser action to update the user
       this.readonlyEmail = true; // Set email field as readonly

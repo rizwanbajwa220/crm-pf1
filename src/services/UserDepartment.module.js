@@ -17,18 +17,18 @@ const state = {
       { title: "Actions", align: "center", key: "actions" },
     ],
     users: [
-      {
-        id: 1,
-        name: "Ahmed",
-        email: "ahmed@example.com",
-        created_at: "2021-06-02 10:00:00",
-      },
-      {
-        id: 2,
-        name: "Ahad",
-        email: "ahad@example.com",
-        created_at: "2021-07-02 11:00:00",
-      },
+      // {
+      //   id: 1,
+      //   name: "Ahmed",
+      //   email: "ahmed@example.com",
+      //   created_at: "2021-06-02 10:00:00",
+      // },
+      // {
+      //   id: 2,
+      //   name: "Ahad",
+      //   email: "ahad@example.com",
+      //   created_at: "2021-07-02 11:00:00",
+      // },
     ],
   },
 };

@@ -1,5 +1,4 @@
 <template>
-  {{ console.log(selectedPermissions) }}
   <v-row>
     <v-col cols="12" md="6" density="compact">
       <h2>Roles and permissions</h2>
@@ -103,7 +102,7 @@ export default {
     return {
       selectedRole: "User",
       roles: ["User Managment", "Teams", "Tasks", "Department"],
-      selectedPermissions: ["can-access-all-users"],
+      selectedPermissions: [],
       selectAllChecked: false,
     };
   },
