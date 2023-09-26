@@ -39,7 +39,15 @@
                       v-model="editedItem.confirm_password"
                       label="Confirm Password"
                     ></v-text-field>
-                    <v-col cols="12" md="9">
+                    <v-select
+                      v-model="favorites"
+                      :items="states"
+                      label="Select"
+                      multiple
+                      hint="Pick your favorite states"
+                      persistent-hint
+                    ></v-select>
+                    <v-col cols="12" md="12">
                       <div class="d-flex justify-space-between pt-1">
                         <h3 class="">Permissions</h3>
 
@@ -48,11 +56,11 @@
                             color="primary"
                             label="Select All"
                             density="compact"
-                            class="me-5"
+                            class="me-5 fontSmall"
                             @click="selectAllPermissions"
                             v-model="selectAllChecked"
                           ></v-checkbox>
-                          <span @click="SavePermission" class="mb-7 pointer"
+                          <span @click="SavePermission" class="mb-5 pointer"
                             >Save</span
                           >
                         </div>
@@ -173,11 +181,20 @@ import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
 import { SideBarItems } from "@/constant/global";
 export default {
+  setup() {
+    const notify = (message) => {
+      toast(message, {
+        autoClose: 1000,
+        position: "top-center",
+      }); // ToastOptions
+    };
+    return { notify };
+  },
   data: () => ({
     dialog: false,
     dialogDelete: false,
     editedIndex: -1,
-    selectedPermissions: ["can-access-all-users"],
+    selectedPermissions: [],
     editedItem: {
       name: "",
       createdAt: "",
@@ -289,6 +306,15 @@ export default {
         this.editedIndex = -1;
       });
     },
+    SavePermission() {
+      // console.log("Selected Permissions: ", this.selectedPermissions);
+      // show toast if selectedPermission is not empty
+      if (this.selectedPermissions.length > 0) {
+        this.notify("Permissions Saved");
+      } else {
+        this.notify("Please select a permission");
+      }
+    },
     save() {
       if (this.editedIndex > -1) {
         const payload = {
@@ -312,3 +338,61 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.role-column {
+  padding: 20px;
+  border-right: 1px solid #ddd;
+}
+
+.v-list-item__title {
+  font-weight: bold;
+}
+
+.v-list-item-group {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.v-list-item-group--active .v-list-item {
+  background-color: #e6f7ff;
+  border-bottom: 1px solid #ddd;
+}
+
+.v-row {
+  margin-left: -10px;
+  margin-right: -10px;
+}
+
+.v-col {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
+#role-table {
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.pointer {
+  transition: all 0.3s ease-in-out;
+  color: white;
+  border: 1px solid gray;
+  padding: 0 5px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  background-color: black;
+}
+
+.pointer:hover {
+  cursor: pointer;
+  color: black;
+  background-color: white;
+  transform: scale(1.1);
+}
+
+.fontSmall {
+  font-size: 0.8rem;
+}
+</style>
