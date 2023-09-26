@@ -1,4 +1,4 @@
-import Api from "./Api";
+import Api from "../../services/Api";
 
 const state = {
   userData: {

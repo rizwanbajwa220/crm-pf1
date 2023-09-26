@@ -39,14 +39,16 @@
                       v-model="editedItem.confirm_password"
                       label="Confirm Password"
                     ></v-text-field>
+                    <!-- Dropdown to select departments -->
                     <v-select
                       v-model="favorites"
                       :items="states"
                       label="Select"
                       multiple
-                      hint="Pick your favorite states"
+                      hint="Select your department"
                       persistent-hint
                     ></v-select>
+
                     <v-col cols="12" md="12">
                       <div class="d-flex justify-space-between pt-1">
                         <h3 class="">Permissions</h3>
@@ -179,7 +181,6 @@
 import { mapGetters, mapActions } from "vuex";
 import { toast } from "vue3-toastify";
 import "vue3-toastify/dist/index.css";
-import { SideBarItems } from "@/constant/global";
 export default {
   setup() {
     const notify = (message) => {
@@ -225,6 +226,67 @@ export default {
     },
     readonlyEmail: false, // Add this property
     selectAllChecked: false,
+    states: [
+      "Alabama",
+      "Alaska",
+      "American Samoa",
+      "Arizona",
+      "Arkansas",
+      "California",
+      "Colorado",
+      "Connecticut",
+      "Delaware",
+      "District of Columbia",
+      "Federated States of Micronesia",
+      "Florida",
+      "Georgia",
+      "Guam",
+      "Hawaii",
+      "Idaho",
+      "Illinois",
+      "Indiana",
+      "Iowa",
+      "Kansas",
+      "Kentucky",
+      "Louisiana",
+      "Maine",
+      "Marshall Islands",
+      "Maryland",
+      "Massachusetts",
+      "Michigan",
+      "Minnesota",
+      "Mississippi",
+      "Missouri",
+      "Montana",
+      "Nebraska",
+      "Nevada",
+      "New Hampshire",
+      "New Jersey",
+      "New Mexico",
+      "New York",
+      "North Carolina",
+      "North Dakota",
+      "Northern Mariana Islands",
+      "Ohio",
+      "Oklahoma",
+      "Oregon",
+      "Palau",
+      "Pennsylvania",
+      "Puerto Rico",
+      "Rhode Island",
+      "South Carolina",
+      "South Dakota",
+      "Tennessee",
+      "Texas",
+      "Utah",
+      "Vermont",
+      "Virgin Island",
+      "Virginia",
+      "Washington",
+      "West Virginia",
+      "Wisconsin",
+      "Wyoming",
+    ],
   }),
   computed: {
     ...mapGetters([
@@ -234,6 +296,7 @@ export default {
       "getIsLoading",
       "getError",
       "getPermissions",
+      "allDepartments",
     ]),
     headers() {
       return this.getHeaders;
