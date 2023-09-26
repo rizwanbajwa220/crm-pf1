@@ -1,10 +1,4 @@
 <template>
-  <v-progress-circular
-    v-if="getIsLoading"
-    indeterminate
-    color="blue"
-  ></v-progress-circular>
-
   <v-data-table
     :headers="getHeaders"
     :items="getUsers"
@@ -13,12 +7,10 @@
     class="elevation-1"
   >
     <template v-slot:top>
-      <v-toolbar flat>
+      <v-toolbar flat v-if="getUsers">
         <v-toolbar-title>All Users</v-toolbar-title>
 
         <v-divider class="mx-4" inset vertical></v-divider>
-
-        <v-spacer></v-spacer>
 
         <v-dialog v-model="dialog" max-width="500px">
           <v-card>
@@ -109,6 +101,22 @@
         mdi-delete
       </v-icon>
     </template>
+    <!-- <div class="d-flex justify-center align-center">
+      <v-progress-circular
+        v-if="getIsLoading"
+        indeterminate
+        size="36"
+        color="primary"
+        class="my-5"
+      ></v-progress-circular>
+      <div
+        v-if="getError && !getIsLoading && !getUsers"
+        color="red"
+        class="my-5 text-h6 red"
+      >
+        {{ getError }}
+      </div>
+    </div> -->
   </v-data-table>
 </template>
 

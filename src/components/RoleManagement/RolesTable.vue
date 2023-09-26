@@ -1,4 +1,5 @@
 <template>
+  {{ console.log(selectedPermissions) }}
   <v-row>
     <v-col cols="12" md="6" density="compact">
       <h2>Roles and permissions</h2>
@@ -34,10 +35,11 @@
         <div class="d-flex align-center justify-center">
           <v-checkbox
             color="primary"
-            @click="selectAllPermissions = !selectAllPermissions"
             label="Select All"
             density="compact"
             class="me-5"
+            @click="selectAllPermissions"
+            v-model="selectAllChecked"
           ></v-checkbox>
           <span @click="SavePermission" class="mb-7">Save</span>
         </div>
@@ -90,7 +92,7 @@ export default {
       selectedRole: "User",
       roles: ["User Managment", "Teams", "Tasks", "Department"],
       selectedPermissions: ["can-access-all-users"],
-      selectAllPermissions: false, // New data property
+      selectAllChecked: false,
     };
   },
   computed: {
@@ -133,6 +135,12 @@ export default {
     updateSelectedRole(role) {
       this.selectedRole = role;
       this.selectedPermissions = this.computedPermissions.slice();
+    },
+    selectAllPermissions() {
+      this.selectAllChecked = !this.selectAllChecked;
+      if (this.selectAllChecked === true) {
+        this.selectedPermissions = this.getPermissions.slice();
+      }
     },
   },
   // add on mount
