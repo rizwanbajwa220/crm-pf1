@@ -1,5 +1,4 @@
 <template>
-  {{ allDepartments }}
   <v-data-table
     :headers="allHeaders"
     :items="allDepartments"
